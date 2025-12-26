@@ -1,0 +1,700 @@
+name: Oil and Gas Upstream Operations
+description: Semantic model for upstream oil and gas operations including production, costs, equipment, HSE, and emissions data
+tables:
+  - name: WELLS
+    description: Master data for all wells including location, type, and cost information
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: WELLS
+    dimensions:
+      - name: FIELD_NAME
+        synonyms:
+          - field
+          - field name
+          - oil field
+        description: Name of the oil/gas field
+        expr: FIELD_NAME
+        data_type: text
+      - name: OPERATOR
+        synonyms:
+          - operating company
+          - operator name
+        description: Company operating the well
+        expr: OPERATOR
+        data_type: text
+      - name: RESERVOIR_NAME
+        synonyms:
+          - formation name
+          - reservoir
+        description: Name of the reservoir or formation
+        expr: RESERVOIR_NAME
+        data_type: text
+      - name: WELL_ID
+        synonyms:
+          - well id
+          - well identifier
+          - well number
+        description: Unique identifier for each well
+        expr: WELL_ID
+        data_type: text
+      - name: WELL_NAME
+        synonyms:
+          - well name
+        description: Name of the well
+        expr: WELL_NAME
+        data_type: text
+      - name: WELL_STATUS
+        synonyms:
+          - operational status
+          - status
+        description: 'Current status: Active, Inactive, Shut-in, or Abandoned'
+        expr: WELL_STATUS
+        data_type: text
+      - name: WELL_TYPE
+        synonyms:
+          - type
+          - well configuration
+        description: 'Type of well: Vertical, Horizontal, or Deviated'
+        expr: WELL_TYPE
+        data_type: text
+    facts:
+      - name: COMPLETION_COST_USD
+        synonyms:
+          - completion capex
+          - completion cost
+        description: Cost to complete the well in USD
+        expr: COMPLETION_COST_USD
+        data_type: number
+        default_aggregation: sum
+      - name: DRILLING_COST_USD
+        synonyms:
+          - drilling capex
+          - drilling cost
+        description: Cost to drill the well in USD
+        expr: DRILLING_COST_USD
+        data_type: number
+        default_aggregation: sum
+      - name: ESTIMATED_RESERVES_BOE
+        synonyms:
+          - estimated reserves
+          - EUR
+          - reserves
+        description: Estimated ultimate recovery in barrels of oil equivalent
+        expr: ESTIMATED_RESERVES_BOE
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - WELL_ID
+  - name: DAILY_PRODUCTION
+    description: Daily production data for oil, gas, and water from each well
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: DAILY_PRODUCTION
+    dimensions:
+      - name: PRODUCTION_DATE
+        synonyms:
+          - date
+          - day
+          - production date
+        description: Date of production
+        expr: PRODUCTION_DATE
+        data_type: date
+      - name: PRODUCTION_METHOD
+        synonyms:
+          - artificial lift
+          - lift method
+        description: 'Method of production: Natural flow, Gas lift, ESP, or Rod pump'
+        expr: PRODUCTION_METHOD
+        data_type: text
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+    facts:
+      - name: BOE
+        synonyms:
+          - barrels of oil equivalent
+          - boe
+          - oil equivalent
+        description: Total production in barrels of oil equivalent (oil + gas/6)
+        expr: BOE
+        data_type: number
+        default_aggregation: sum
+      - name: DOWNTIME_HOURS
+        synonyms:
+          - downtime
+          - non-productive time
+        description: Hours of downtime
+        expr: DOWNTIME_HOURS
+        data_type: number
+        default_aggregation: sum
+      - name: GAS_MCF
+        synonyms:
+          - gas
+          - gas production
+          - natural gas
+        description: Gas production in thousand cubic feet
+        expr: GAS_MCF
+        data_type: number
+        default_aggregation: sum
+      - name: OIL_BBL
+        synonyms:
+          - barrels of oil
+          - crude oil
+          - oil
+          - oil production
+        description: Oil production in barrels
+        expr: OIL_BBL
+        data_type: number
+        default_aggregation: sum
+      - name: TUBING_PRESSURE_PSI
+        synonyms:
+          - tubing pressure
+          - wellhead pressure
+        description: Tubing pressure in PSI
+        expr: TUBING_PRESSURE_PSI
+        data_type: number
+        default_aggregation: avg
+      - name: WATER_BBL
+        synonyms:
+          - water
+          - water cut
+          - water production
+        description: Water production in barrels
+        expr: WATER_BBL
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - WELL_ID
+        - PRODUCTION_DATE
+  - name: WELL_OPERATIONS
+    description: Well operations, interventions, and associated costs
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: WELL_OPERATIONS
+    dimensions:
+      - name: OPERATION_DATE
+        synonyms:
+          - date
+          - operation date
+        description: Date of operation
+        expr: OPERATION_DATE
+        data_type: date
+      - name: OPERATION_TYPE
+        synonyms:
+          - activity type
+          - intervention type
+          - operation
+        description: 'Type of operation: Workover, Stimulation, Maintenance, or Inspection'
+        expr: OPERATION_TYPE
+        data_type: text
+      - name: VENDOR
+        synonyms:
+          - contractor
+          - service company
+        description: Vendor or contractor performing the work
+        expr: VENDOR
+        data_type: text
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+    facts:
+      - name: DURATION_HOURS
+        synonyms:
+          - duration
+          - operation time
+        description: Duration of operation in hours
+        expr: DURATION_HOURS
+        data_type: number
+        default_aggregation: sum
+      - name: PRODUCTION_IMPACT_BOE
+        synonyms:
+          - incremental production
+          - production uplift
+        description: Incremental production gained from operation in BOE
+        expr: PRODUCTION_IMPACT_BOE
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_COST_USD
+        synonyms:
+          - operating cost
+          - operational cost
+          - opex
+        description: Total cost of the operation in USD
+        expr: TOTAL_COST_USD
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - WELL_ID
+        - OPERATION_DATE
+        - OPERATION_TYPE
+  - name: EQUIPMENT_ASSETS
+    description: Equipment and asset inventory with maintenance information
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: EQUIPMENT_ASSETS
+    dimensions:
+      - name: ASSET_ID
+        description: Unique identifier for equipment asset
+        expr: ASSET_ID
+        data_type: text
+      - name: ASSET_TYPE
+        synonyms:
+          - asset category
+          - equipment type
+        description: 'Type of equipment: Pump, Compressor, Separator, Tank, or Wellhead'
+        expr: ASSET_TYPE
+        data_type: text
+      - name: CRITICALITY
+        synonyms:
+          - importance
+          - priority
+        description: 'Criticality level: Critical, High, Medium, or Low'
+        expr: CRITICALITY
+        data_type: text
+      - name: STATUS
+        synonyms:
+          - condition
+          - equipment status
+        description: 'Current status: Operational, Degraded, Failed, or Maintenance'
+        expr: STATUS
+        data_type: text
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+    facts:
+      - name: REPLACEMENT_COST_USD
+        synonyms:
+          - asset value
+          - replacement cost
+        description: Cost to replace the asset in USD
+        expr: REPLACEMENT_COST_USD
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - ASSET_ID
+  - name: EQUIPMENT_FAILURES
+    description: Equipment failure incidents and downtime
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: EQUIPMENT_FAILURES
+    dimensions:
+      - name: ASSET_ID
+        description: Equipment asset identifier for joining
+        expr: ASSET_ID
+        data_type: text
+      - name: FAILURE_DATE
+        synonyms:
+          - date
+          - failure date
+        description: Date of failure
+        expr: FAILURE_DATE
+        data_type: date
+      - name: FAILURE_MODE
+        synonyms:
+          - failure type
+          - mode of failure
+        description: How the equipment failed
+        expr: FAILURE_MODE
+        data_type: text
+      - name: SEVERITY
+        synonyms:
+          - criticality
+          - failure severity
+        description: 'Severity: Critical, Major, or Minor'
+        expr: SEVERITY
+        data_type: text
+    facts:
+      - name: DOWNTIME_HOURS
+        synonyms:
+          - downtime
+          - outage duration
+        description: Hours of downtime caused by failure
+        expr: DOWNTIME_HOURS
+        data_type: number
+        default_aggregation: sum
+      - name: PRODUCTION_LOSS_BOE
+        synonyms:
+          - deferred production
+          - lost production
+        description: Production lost due to failure in BOE
+        expr: PRODUCTION_LOSS_BOE
+        data_type: number
+        default_aggregation: sum
+      - name: REPAIR_COST_USD
+        synonyms:
+          - fix cost
+          - repair cost
+        description: Cost to repair the failure in USD
+        expr: REPAIR_COST_USD
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - ASSET_ID
+        - FAILURE_DATE
+  - name: HSE_INCIDENTS
+    description: Health, Safety, and Environmental incidents
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: HSE_INCIDENTS
+    dimensions:
+      - name: INCIDENT_CATEGORY
+        synonyms:
+          - category
+          - incident description
+        description: Specific category like Spill, Injury, Fire, etc.
+        expr: INCIDENT_CATEGORY
+        data_type: text
+      - name: INCIDENT_DATE
+        synonyms:
+          - date
+          - incident date
+        description: Date of incident
+        expr: INCIDENT_DATE
+        data_type: date
+      - name: INCIDENT_TYPE
+        synonyms:
+          - incident category
+          - type
+        description: 'Type: Safety, Environmental, or Near-miss'
+        expr: INCIDENT_TYPE
+        data_type: text
+      - name: SEVERITY
+        synonyms:
+          - seriousness
+          - severity level
+        description: 'Severity: Fatal, Serious, Minor, or Near-miss'
+        expr: SEVERITY
+        data_type: text
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+    facts:
+      - name: ESTIMATED_COST_USD
+        synonyms:
+          - financial impact
+          - incident cost
+        description: Estimated cost of incident in USD
+        expr: ESTIMATED_COST_USD
+        data_type: number
+        default_aggregation: sum
+      - name: INJURIES
+        synonyms:
+          - injury count
+          - number of injuries
+        description: Number of injuries
+        expr: INJURIES
+        data_type: number
+        default_aggregation: sum
+      - name: VOLUME_SPILLED_BBL
+        synonyms:
+          - spill volume
+          - spillage
+        description: Volume spilled in barrels
+        expr: VOLUME_SPILLED_BBL
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - WELL_ID
+        - INCIDENT_DATE
+        - INCIDENT_TYPE
+  - name: EMISSIONS_DATA
+    description: Environmental emissions data including CO2, methane, and other gases
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: EMISSIONS_DATA
+    dimensions:
+      - name: COMPLIANCE_STATUS
+        synonyms:
+          - compliance
+          - regulatory status
+        description: 'Compliance status: Compliant, Warning, or Violation'
+        expr: COMPLIANCE_STATUS
+        data_type: text
+      - name: EMISSION_SOURCE
+        synonyms:
+          - emission source
+          - source
+        description: 'Source: Combustion, Venting, Flaring, or Fugitive'
+        expr: EMISSION_SOURCE
+        data_type: text
+      - name: EMISSION_TYPE
+        synonyms:
+          - emission
+          - gas type
+          - pollutant type
+        description: 'Type of emission: CO2, Methane, VOC, NOx, or Flaring'
+        expr: EMISSION_TYPE
+        data_type: text
+      - name: MEASUREMENT_DATE
+        synonyms:
+          - date
+          - emission date
+          - measurement date
+        description: Date of emission measurement
+        expr: MEASUREMENT_DATE
+        data_type: date
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+    facts:
+      - name: EMISSION_INTENSITY
+        synonyms:
+          - carbon intensity
+          - emissions intensity
+        description: Emissions per unit of production (tonnes CO2e per BOE)
+        expr: EMISSION_INTENSITY
+        data_type: number
+        default_aggregation: avg
+      - name: QUANTITY_CO2E_TONNES
+        synonyms:
+          - carbon emissions
+          - CO2 equivalent
+          - emissions
+          - greenhouse gas
+        description: Emissions in tonnes of CO2 equivalent
+        expr: QUANTITY_CO2E_TONNES
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - WELL_ID
+        - MEASUREMENT_DATE
+        - EMISSION_TYPE
+  - name: DRILLING_PROJECTS
+    description: Drilling and capital projects with economics
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: DRILLING_PROJECTS
+    dimensions:
+      - name: PROJECT_START_DATE
+        synonyms:
+          - project start
+          - start date
+        description: Project start date
+        expr: PROJECT_START_DATE
+        data_type: date
+      - name: PROJECT_STATUS
+        synonyms:
+          - project phase
+          - status
+        description: 'Status: Planned, In Progress, Completed, or Cancelled'
+        expr: PROJECT_STATUS
+        data_type: text
+      - name: PROJECT_TYPE
+        synonyms:
+          - project category
+          - type
+        description: 'Type: New drill, Workover, Facility, or Pipeline'
+        expr: PROJECT_TYPE
+        data_type: text
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+    facts:
+      - name: BUDGETED_COST_USD
+        synonyms:
+          - budget
+          - capex budget
+          - planned cost
+        description: Budgeted cost in USD
+        expr: BUDGETED_COST_USD
+        data_type: number
+        default_aggregation: sum
+      - name: EXPECTED_PRODUCTION_BOEPD
+        synonyms:
+          - expected production
+          - forecast production
+        description: Expected production in barrels of oil equivalent per day
+        expr: EXPECTED_PRODUCTION_BOEPD
+        data_type: number
+        default_aggregation: sum
+      - name: IRR_PCT
+        synonyms:
+          - internal rate of return
+          - IRR
+          - return rate
+        description: Internal rate of return as percentage
+        expr: IRR_PCT
+        data_type: number
+        default_aggregation: avg
+      - name: NPV_USD
+        synonyms:
+          - net present value
+          - NPV
+          - project value
+        description: Net present value in USD
+        expr: NPV_USD
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - WELL_ID
+        - PROJECT_START_DATE
+  - name: VW_WELL_ECONOMICS
+    description: Aggregated well economics including costs per BOE
+    base_table:
+      database: OIL_GAS_UPSTREAM_DEMO
+      schema: OPERATIONS
+      table: VW_WELL_ECONOMICS
+    dimensions:
+      - name: FIELD_NAME
+        description: Name of the field
+        expr: FIELD_NAME
+        data_type: text
+      - name: WELL_ID
+        description: Well identifier for joining with WELLS table
+        expr: WELL_ID
+        data_type: text
+      - name: WELL_NAME
+        description: Name of the well
+        expr: WELL_NAME
+        data_type: text
+    facts:
+      - name: OPEX_PER_BOE
+        synonyms:
+          - cost per boe
+          - operating cost per barrel
+          - unit cost
+        description: Operating expense per barrel of oil equivalent
+        expr: OPEX_PER_BOE
+        data_type: number
+        default_aggregation: avg
+    primary_key:
+      columns:
+        - WELL_ID
+relationships:
+  - name: wells_to_production
+    left_table: WELLS
+    right_table: DAILY_PRODUCTION
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+  - name: wells_to_operations
+    left_table: WELLS
+    right_table: WELL_OPERATIONS
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+  - name: wells_to_equipment
+    left_table: WELLS
+    right_table: EQUIPMENT_ASSETS
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+  - name: equipment_to_failures
+    left_table: EQUIPMENT_ASSETS
+    right_table: EQUIPMENT_FAILURES
+    relationship_columns:
+      - left_column: ASSET_ID
+        right_column: ASSET_ID
+    join_type: left_outer
+  - name: wells_to_hse
+    left_table: WELLS
+    right_table: HSE_INCIDENTS
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+  - name: wells_to_emissions
+    left_table: WELLS
+    right_table: EMISSIONS_DATA
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+  - name: wells_to_projects
+    left_table: WELLS
+    right_table: DRILLING_PROJECTS
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+  - name: wells_to_economics
+    left_table: WELLS
+    right_table: VW_WELL_ECONOMICS
+    relationship_columns:
+      - left_column: WELL_ID
+        right_column: WELL_ID
+    join_type: left_outer
+verified_queries:
+  - name: top_wells_by_production
+    question: What are the top 10 wells by production?
+    sql: |
+      SELECT w.WELL_NAME, w.FIELD_NAME, SUM(dp.BOE) as TOTAL_BOE
+      FROM WELLS w
+      JOIN DAILY_PRODUCTION dp ON w.WELL_ID = dp.WELL_ID
+      WHERE dp.PRODUCTION_DATE >= DATEADD(day, -30, CURRENT_DATE())
+      GROUP BY w.WELL_NAME, w.FIELD_NAME
+      ORDER BY TOTAL_BOE DESC
+      LIMIT 10
+  - name: highest_opex_per_boe
+    question: Which wells have the highest operating cost per BOE?
+    sql: |
+      SELECT WELL_NAME, FIELD_NAME, OPEX_PER_BOE
+      FROM VW_WELL_ECONOMICS
+      WHERE OPEX_PER_BOE IS NOT NULL
+      ORDER BY OPEX_PER_BOE DESC
+      LIMIT 10
+  - name: total_emissions_this_year
+    question: What are our total emissions this year?
+    sql: |
+      SELECT SUM(QUANTITY_CO2E_TONNES) as TOTAL_EMISSIONS
+      FROM EMISSIONS_DATA
+      WHERE MEASUREMENT_DATE >= DATE_TRUNC('YEAR', CURRENT_DATE())
+  - name: safety_incidents_this_month
+    question: How many safety incidents have we had this month?
+    sql: |
+      SELECT COUNT(*) as INCIDENT_COUNT
+      FROM HSE_INCIDENTS
+      WHERE INCIDENT_DATE >= DATE_TRUNC('MONTH', CURRENT_DATE())
+      AND INCIDENT_TYPE = 'Safety'
+custom_instructions: |
+  This semantic model is for Upstream Oil and Gas Operations in the Energy industry.
+
+  Key Business Metrics and Context:
+  - BOE (Barrels of Oil Equivalent): Standard unit combining oil and gas production. Calculated as Oil BBL + (Gas MCF / 6)
+  - OPEX per BOE: Operating expense per barrel. Lower is better. Typical range is $10-30/BOE
+  - NPV (Net Present Value): Present value of future cash flows. Higher is better
+  - IRR (Internal Rate of Return): Annual return percentage. Target is typically >15% for new drilling projects
+  - Emission Intensity: Tonnes CO2e per BOE produced. Lower is better. Emission intensity targets should be below 0.15 tonnes CO2e per BOE
+  - TRIR (Total Recordable Incident Rate): Safety incidents per 200,000 work hours. Lower is better
+
+  Common Time Periods:
+  - Use "Last 30 days", "Last 90 days", or "Last year" for trending analysis
+  - When users ask about "recent" data, default to last 30 days
+  - For year-over-year comparisons, use full calendar years
+
+  Common Filters:
+  - Filter to "Active" wells only when analyzing current operations
+  - Group results by FIELD_NAME when comparing performance across fields
+  - Distinguish between well types: Horizontal, Vertical, or Deviated
+  - Consider equipment criticality levels: Critical, High, Medium, Low
+
+  Business Rules:
+  - Horizontal wells typically have higher initial production but faster decline rates
+  - OPEX per BOE above $30 indicates high-cost operations requiring optimization
+  - Safety incidents should always be minimized - any upward trend requires immediate attention
+  - Environmental compliance is critical - any violations require immediate attention

@@ -1,0 +1,782 @@
+name: FMCG Trade Promotion & Demand Intelligence
+description: |
+  Semantic model for FMCG trade promotion optimization, demand forecasting, 
+  and on-shelf availability analysis. Enables natural language queries for 
+  promotion ROI, forecast accuracy, and inventory management insights.
+tables:
+  - name: PRODUCTS
+    description: Product master data including SKU details, pricing, and categorization
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: PRODUCTS
+    dimensions:
+      - name: BRAND
+        synonyms:
+          - brand name
+          - manufacturer
+        description: Brand of the product
+        expr: BRAND
+        data_type: text
+      - name: CATEGORY
+        synonyms:
+          - department
+          - product category
+        description: Product category (Beverages, Snacks, Dairy, etc.)
+        expr: CATEGORY
+        data_type: text
+      - name: SKU_ID
+        synonyms:
+          - item
+          - product id
+          - sku
+        description: Unique identifier for each SKU
+        expr: SKU_ID
+        data_type: text
+      - name: SKU_NAME
+        synonyms:
+          - item name
+          - product name
+        description: Name of the SKU
+        expr: SKU_NAME
+        data_type: text
+      - name: SUB_CATEGORY
+        synonyms:
+          - product type
+          - subcategory
+        description: Product subcategory within main category
+        expr: SUB_CATEGORY
+        data_type: text
+    facts:
+      - name: REGULAR_PRICE
+        synonyms:
+          - price
+          - retail price
+          - unit price
+        description: Regular retail price of the product
+        expr: REGULAR_PRICE
+        data_type: number
+        default_aggregation: avg
+      - name: UNIT_COST
+        synonyms:
+          - cogs
+          - cost
+        description: Unit cost of the product
+        expr: UNIT_COST
+        data_type: number
+        default_aggregation: avg
+    primary_key:
+      columns:
+        - SKU_ID
+  - name: STORES
+    description: Store master data including location, format, and region
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: STORES
+    dimensions:
+      - name: CITY
+        synonyms:
+          - city name
+          - location
+        description: City where store is located
+        expr: CITY
+        data_type: text
+      - name: REGION
+        synonyms:
+          - area
+          - geographical region
+        description: Geographical region of the store
+        expr: REGION
+        data_type: text
+      - name: STORE_FORMAT
+        synonyms:
+          - channel
+          - format
+          - store type
+        description: Store format (Hypermarket, Supermarket, Convenience, Online)
+        expr: STORE_FORMAT
+        data_type: text
+      - name: STORE_ID
+        synonyms:
+          - location id
+          - store
+          - store identifier
+        description: Unique identifier for each store
+        expr: STORE_ID
+        data_type: text
+      - name: STORE_NAME
+        synonyms:
+          - location name
+          - store name
+        description: Name of the store
+        expr: STORE_NAME
+        data_type: text
+    primary_key:
+      columns:
+        - STORE_ID
+  - name: DAILY_SALES
+    description: Daily sales transactions by product and store
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: DAILY_SALES
+    dimensions:
+      - name: IS_PROMOTED
+        synonyms:
+          - on promotion
+          - promoted
+          - promotional
+        description: Whether the sale was part of a promotion
+        expr: IS_PROMOTED
+        data_type: text
+      - name: PROMOTION_ID
+        synonyms:
+          - promo id
+        description: Promotion identifier
+        expr: PROMOTION_ID
+        data_type: text
+      - name: SALE_DATE
+        synonyms:
+          - date
+          - sales date
+          - transaction date
+        description: Date of the sales transaction
+        expr: SALE_DATE
+        data_type: date
+      - name: SKU_ID
+        synonyms:
+          - item
+          - product id
+          - sku
+        description: Product SKU identifier
+        expr: SKU_ID
+        data_type: text
+      - name: STORE_ID
+        synonyms:
+          - location id
+          - store
+        description: Store identifier
+        expr: STORE_ID
+        data_type: text
+    facts:
+      - name: COST
+        synonyms:
+          - cogs
+          - cost of goods sold
+        description: Total cost of goods sold
+        expr: COST
+        data_type: number
+        default_aggregation: sum
+      - name: DISCOUNT_AMOUNT
+        synonyms:
+          - discount
+          - markdown
+          - price reduction
+        description: Total discount amount applied
+        expr: DISCOUNT_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: REVENUE
+        synonyms:
+          - sales
+          - sales revenue
+          - turnover
+        description: Total revenue from sales
+        expr: REVENUE
+        data_type: number
+        default_aggregation: sum
+      - name: UNITS_SOLD
+        synonyms:
+          - quantity sold
+          - units
+          - volume
+        description: Number of units sold
+        expr: UNITS_SOLD
+        data_type: number
+        default_aggregation: sum
+  - name: TRADE_PROMOTIONS
+    description: Trade promotion master data including mechanics and budget
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: TRADE_PROMOTIONS
+    dimensions:
+      - name: END_DATE
+        synonyms:
+          - end date
+          - promotion end
+        description: End date of the promotion
+        expr: END_DATE
+        data_type: date
+      - name: PROMOTION_ID
+        synonyms:
+          - promo id
+          - promotion identifier
+        description: Unique identifier for each promotion
+        expr: PROMOTION_ID
+        data_type: text
+      - name: PROMOTION_NAME
+        synonyms:
+          - promo name
+          - promotion
+        description: Name of the promotion
+        expr: PROMOTION_NAME
+        data_type: text
+      - name: PROMOTION_TYPE
+        synonyms:
+          - promo type
+          - promotion mechanic type
+        description: Type of promotion (Discount, Display, Feature, Combo, BOGO)
+        expr: PROMOTION_TYPE
+        data_type: text
+      - name: START_DATE
+        synonyms:
+          - promotion start
+          - start date
+        description: Start date of the promotion
+        expr: START_DATE
+        data_type: date
+    facts:
+      - name: BUDGET
+        synonyms:
+          - allocated budget
+          - promotion budget
+        description: Budget allocated for the promotion
+        expr: BUDGET
+        data_type: number
+        default_aggregation: sum
+      - name: DISCOUNT_PERCENTAGE
+        synonyms:
+          - discount percent
+          - discount rate
+          - markdown percent
+        description: Discount percentage offered in the promotion
+        expr: DISCOUNT_PERCENTAGE
+        data_type: number
+        default_aggregation: avg
+    primary_key:
+      columns:
+        - PROMOTION_ID
+  - name: INVENTORY_LEVELS
+    description: Daily inventory levels and out-of-stock tracking
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: INVENTORY_LEVELS
+    dimensions:
+      - name: INVENTORY_DATE
+        synonyms:
+          - date
+          - inventory date
+        description: Date of inventory snapshot
+        expr: INVENTORY_DATE
+        data_type: date
+      - name: OUT_OF_STOCK_FLAG
+        synonyms:
+          - oos
+          - out of stock
+          - stockout
+        description: Whether the product was out of stock
+        expr: OUT_OF_STOCK_FLAG
+        data_type: text
+      - name: SKU_ID
+        synonyms:
+          - item
+          - product id
+        description: Product SKU identifier
+        expr: SKU_ID
+        data_type: text
+      - name: STORE_ID
+        synonyms:
+          - location id
+          - store
+        description: Store identifier
+        expr: STORE_ID
+        data_type: text
+    facts:
+      - name: BEGINNING_INVENTORY
+        synonyms:
+          - opening inventory
+          - starting inventory
+        description: Inventory level at beginning of day
+        expr: BEGINNING_INVENTORY
+        data_type: number
+        default_aggregation: avg
+      - name: DAYS_OUT_OF_STOCK
+        synonyms:
+          - oos days
+          - stockout days
+        description: Number of days product was out of stock
+        expr: DAYS_OUT_OF_STOCK
+        data_type: number
+        default_aggregation: sum
+      - name: ENDING_INVENTORY
+        synonyms:
+          - closing inventory
+          - final inventory
+        description: Inventory level at end of day
+        expr: ENDING_INVENTORY
+        data_type: number
+        default_aggregation: avg
+  - name: DEMAND_FORECAST
+    description: Forward-looking demand forecasts with confidence intervals
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: DEMAND_FORECAST
+    dimensions:
+      - name: FORECAST_DATE
+        synonyms:
+          - date
+          - forecast date
+          - prediction date
+        description: Date for which demand is forecasted
+        expr: FORECAST_DATE
+        data_type: date
+      - name: SKU_ID
+        synonyms:
+          - item
+          - product id
+        description: Product SKU identifier
+        expr: SKU_ID
+        data_type: text
+      - name: STORE_ID
+        synonyms:
+          - location id
+          - store
+        description: Store identifier
+        expr: STORE_ID
+        data_type: text
+    facts:
+      - name: ACTUAL_UNITS
+        synonyms:
+          - actual demand
+          - actual sales
+        description: Actual units sold (for historical forecasts)
+        expr: ACTUAL_UNITS
+        data_type: number
+        default_aggregation: sum
+      - name: CONFIDENCE_LEVEL
+        synonyms:
+          - confidence score
+          - forecast confidence
+        description: Confidence level of the forecast (0-100)
+        expr: CONFIDENCE_LEVEL
+        data_type: number
+        default_aggregation: avg
+      - name: FORECASTED_UNITS
+        synonyms:
+          - expected units
+          - forecast
+          - predicted demand
+        description: Forecasted demand in units
+        expr: FORECASTED_UNITS
+        data_type: number
+        default_aggregation: sum
+  - name: VW_PROMOTION_PERFORMANCE
+    description: Aggregated view of promotion effectiveness with ROI and lift metrics
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: VW_PROMOTION_PERFORMANCE
+    dimensions:
+      - name: BRAND
+        synonyms:
+          - brand name
+        description: Brand included in promotion
+        expr: BRAND
+        data_type: text
+      - name: CATEGORY
+        synonyms:
+          - product category
+        description: Product category targeted by promotion
+        expr: CATEGORY
+        data_type: text
+      - name: PROMOTION_NAME
+        synonyms:
+          - promo name
+          - promotion
+        description: Name of the promotion
+        expr: PROMOTION_NAME
+        data_type: text
+      - name: PROMOTION_TYPE
+        synonyms:
+          - mechanic type
+          - promo type
+        description: Type of promotion
+        expr: PROMOTION_TYPE
+        data_type: text
+      - name: REGION
+        synonyms:
+          - geographical region
+        description: Store region where promotion executed
+        expr: REGION
+        data_type: text
+    facts:
+      - name: GROSS_PROFIT
+        synonyms:
+          - margin
+          - profit
+        description: Gross profit from promotion
+        expr: GROSS_PROFIT
+        data_type: number
+        default_aggregation: sum
+      - name: INCREMENTAL_REVENUE
+        synonyms:
+          - incremental sales
+          - uplift revenue
+        description: Revenue above baseline (incremental impact)
+        expr: INCREMENTAL_REVENUE
+        data_type: number
+        default_aggregation: sum
+      - name: PROMOTION_LIFT_PCT
+        synonyms:
+          - lift
+          - promotional lift
+          - sales lift
+        description: Percentage lift in sales vs baseline
+        expr: PROMOTION_LIFT_PCT
+        data_type: number
+        default_aggregation: avg
+      - name: PROMOTION_ROI_PCT
+        synonyms:
+          - promotion roi
+          - return on investment
+          - roi
+        description: Promotion return on investment as percentage
+        expr: PROMOTION_ROI_PCT
+        data_type: number
+        default_aggregation: avg
+      - name: TOTAL_PROMOTED_REVENUE
+        synonyms:
+          - promoted sales
+          - promotion revenue
+        description: Total revenue during promotion period
+        expr: TOTAL_PROMOTED_REVENUE
+        data_type: number
+        default_aggregation: sum
+  - name: VW_FORECAST_ACCURACY
+    description: Forecast accuracy metrics comparing predictions to actuals
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: VW_FORECAST_ACCURACY
+    dimensions:
+      - name: CATEGORY
+        synonyms:
+          - product category
+        description: Product category
+        expr: CATEGORY
+        data_type: text
+      - name: FORECAST_BIAS
+        synonyms:
+          - bias
+          - forecast tendency
+        description: Bias indicator (Over-Forecast, Under-Forecast, Accurate)
+        expr: FORECAST_BIAS
+        data_type: text
+      - name: FORECAST_DATE
+        synonyms:
+          - date
+          - prediction date
+        description: Date of the forecast
+        expr: FORECAST_DATE
+        data_type: date
+      - name: REGION
+        synonyms:
+          - geographical region
+        description: Store region
+        expr: REGION
+        data_type: text
+    facts:
+      - name: ABSOLUTE_PERCENTAGE_ERROR
+        synonyms:
+          - accuracy
+          - mape
+          - percentage error
+        description: Absolute percentage error (forecast accuracy metric)
+        expr: ABSOLUTE_PERCENTAGE_ERROR
+        data_type: number
+        default_aggregation: avg
+      - name: ACTUAL_UNITS
+        synonyms:
+          - actual
+          - actual sales
+        description: Actual units sold
+        expr: ACTUAL_UNITS
+        data_type: number
+        default_aggregation: sum
+      - name: FORECAST_ERROR
+        synonyms:
+          - error
+          - forecast error
+        description: Difference between forecast and actual
+        expr: FORECAST_ERROR
+        data_type: number
+        default_aggregation: sum
+      - name: FORECASTED_UNITS
+        synonyms:
+          - forecast
+          - predicted units
+        description: Forecasted demand
+        expr: FORECASTED_UNITS
+        data_type: number
+        default_aggregation: sum
+  - name: VW_OSA_METRICS
+    description: On-shelf availability metrics with lost sales calculations
+    base_table:
+      database: FMCG_TRADE_DEMO
+      schema: ANALYTICS
+      table: VW_OSA_METRICS
+    dimensions:
+      - name: BRAND
+        synonyms:
+          - brand name
+        description: Product brand
+        expr: BRAND
+        data_type: text
+      - name: CATEGORY
+        synonyms:
+          - product category
+        description: Product category
+        expr: CATEGORY
+        data_type: text
+      - name: OOS_RISK_LEVEL
+        synonyms:
+          - risk level
+          - stockout risk
+        description: Out-of-stock risk classification (Critical, High, Medium, Low)
+        expr: OOS_RISK_LEVEL
+        data_type: text
+      - name: REGION
+        synonyms:
+          - geographical region
+        description: Store region
+        expr: REGION
+        data_type: text
+      - name: STORE_FORMAT
+        synonyms:
+          - format
+          - store type
+        description: Store format
+        expr: STORE_FORMAT
+        data_type: text
+      - name: STORE_NAME
+        synonyms:
+          - location
+          - store
+        description: Name of the store
+        expr: STORE_NAME
+        data_type: text
+    facts:
+      - name: AVG_INVENTORY
+        synonyms:
+          - average inventory
+          - inventory level
+        description: Average inventory level
+        expr: AVG_INVENTORY
+        data_type: number
+        default_aggregation: avg
+      - name: ESTIMATED_LOST_REVENUE
+        synonyms:
+          - lost revenue
+          - lost sales
+          - opportunity cost
+        description: Estimated revenue lost due to stockouts
+        expr: ESTIMATED_LOST_REVENUE
+        data_type: number
+        default_aggregation: sum
+      - name: ESTIMATED_LOST_UNITS
+        synonyms:
+          - lost units
+          - lost volume
+        description: Estimated units not sold due to stockouts
+        expr: ESTIMATED_LOST_UNITS
+        data_type: number
+        default_aggregation: sum
+      - name: OOS_DAYS
+        synonyms:
+          - out of stock days
+          - stockout days
+        description: Number of days out of stock
+        expr: OOS_DAYS
+        data_type: number
+        default_aggregation: sum
+      - name: OSA_PERCENTAGE
+        synonyms:
+          - in-stock rate
+          - on shelf availability
+          - osa
+        description: Percentage of days product was available on shelf
+        expr: OSA_PERCENTAGE
+        data_type: number
+        default_aggregation: avg
+relationships:
+  - name: sales_to_products
+    left_table: DAILY_SALES
+    right_table: PRODUCTS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: SKU_ID
+        right_column: SKU_ID
+  - name: sales_to_stores
+    left_table: DAILY_SALES
+    right_table: STORES
+    join_type: left_outer
+    relationship_columns:
+      - left_column: STORE_ID
+        right_column: STORE_ID
+  - name: sales_to_promotions
+    left_table: DAILY_SALES
+    right_table: TRADE_PROMOTIONS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: PROMOTION_ID
+        right_column: PROMOTION_ID
+  - name: inventory_to_products
+    left_table: INVENTORY_LEVELS
+    right_table: PRODUCTS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: SKU_ID
+        right_column: SKU_ID
+  - name: inventory_to_stores
+    left_table: INVENTORY_LEVELS
+    right_table: STORES
+    join_type: left_outer
+    relationship_columns:
+      - left_column: STORE_ID
+        right_column: STORE_ID
+  - name: forecast_to_products
+    left_table: DEMAND_FORECAST
+    right_table: PRODUCTS
+    join_type: left_outer
+    relationship_columns:
+      - left_column: SKU_ID
+        right_column: SKU_ID
+  - name: forecast_to_stores
+    left_table: DEMAND_FORECAST
+    right_table: STORES
+    join_type: left_outer
+    relationship_columns:
+      - left_column: STORE_ID
+        right_column: STORE_ID
+verified_queries:
+  - name: highest_roi_promotions
+    question: Which promotions had the highest ROI last quarter?
+    sql: |
+      SELECT 
+        PROMOTION_NAME,
+        PROMOTION_TYPE,
+        CATEGORY,
+        SUM(TOTAL_PROMOTED_REVENUE) as total_revenue,
+        AVG(PROMOTION_ROI_PCT) as avg_roi_pct
+      FROM VW_PROMOTION_PERFORMANCE
+      GROUP BY PROMOTION_NAME, PROMOTION_TYPE, CATEGORY
+      ORDER BY avg_roi_pct DESC
+      LIMIT 10
+    verified_at: 1735200000
+    verified_by: data_analyst
+    use_as_onboarding_question: true
+  - name: beverages_forecast_accuracy
+    question: What is the forecast accuracy for beverages in the last month?
+    sql: |
+      SELECT 
+        CATEGORY,
+        REGION,
+        COUNT(*) as forecast_count,
+        AVG(ABSOLUTE_PERCENTAGE_ERROR) as avg_mape,
+        SUM(FORECASTED_UNITS) as total_forecasted,
+        SUM(ACTUAL_UNITS) as total_actual
+      FROM VW_FORECAST_ACCURACY
+      WHERE CATEGORY = 'Beverages'
+        AND FORECAST_DATE >= DATEADD(month, -1, CURRENT_DATE())
+      GROUP BY CATEGORY, REGION
+      ORDER BY avg_mape
+    verified_at: 1735200300
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+  - name: highest_oos_stores
+    question: Which stores have the highest out-of-stock rates?
+    sql: |
+      SELECT 
+        STORE_NAME,
+        STORE_FORMAT,
+        REGION,
+        AVG(OSA_PERCENTAGE) as avg_osa_pct,
+        SUM(OOS_DAYS) as total_oos_days,
+        SUM(ESTIMATED_LOST_REVENUE) as total_lost_revenue
+      FROM VW_OSA_METRICS
+      GROUP BY STORE_NAME, STORE_FORMAT, REGION
+      ORDER BY avg_osa_pct ASC
+      LIMIT 10
+    verified_at: 1735200600
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+  - name: snacks_promotion_lift
+    question: Show me promotion lift by promotion type for the snacks category
+    sql: |
+      SELECT 
+        PROMOTION_TYPE,
+        CATEGORY,
+        COUNT(DISTINCT PROMOTION_NAME) as promo_count,
+        AVG(PROMOTION_LIFT_PCT) as avg_lift_pct,
+        SUM(INCREMENTAL_REVENUE) as total_incremental_revenue
+      FROM VW_PROMOTION_PERFORMANCE
+      WHERE CATEGORY = 'Snacks'
+      GROUP BY PROMOTION_TYPE, CATEGORY
+      ORDER BY avg_lift_pct DESC
+    verified_at: 1735200900
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+custom_instructions: |
+  This FMCG dataset contains comprehensive trade promotion, demand forecasting, and 
+  on-shelf availability data for retail operations.
+
+  Key Business Metrics and Context:
+  - Promotion ROI = (Gross Profit - Promotion Cost) / Promotion Cost * 100
+  - Promotion Lift = (Promoted Sales - Baseline Sales) / Baseline Sales * 100
+  - OSA (On-Shelf Availability) = Days In Stock / Total Days * 100
+  - MAPE (Mean Absolute Percentage Error) measures forecast accuracy
+  - Incremental Revenue/Units represent sales uplift above baseline
+
+  Product Categories:
+  - Beverages (Soft Drinks, Juices, Water)
+  - Snacks (Chips, Cookies)
+  - Dairy (Milk, Yogurt, Cheese)
+  - Personal Care (Shampoo, Soap)
+  - Household (Detergent, Cleaners)
+
+  Store Formats:
+  - Hypermarket (large format, 70k+ sqft)
+  - Supermarket (medium format, 30-50k sqft)
+  - Convenience (small format, <5k sqft)
+  - Online (e-commerce channel)
+
+  Promotion Types:
+  - Discount: Price reduction promotions
+  - Display: End-cap and special display placements
+  - Feature: Weekly flyer and advertising features
+  - Combo: Multi-buy discounts (e.g., buy 2 get discount)
+  - BOGO: Buy One Get One promotions
+
+  Regions: North, South, East, West, Central
+
+  Time Periods:
+  - Sales History: 180 days of historical data
+  - Forecast Horizon: 30 days forward-looking
+  - Inventory Tracking: Real-time with 90-day history
+
+  Business Rules:
+  - Baseline sales = non-promoted sales used for comparison
+  - Promoted sales = sales during active promotion periods
+  - Lost sales calculations assume average daily demand during stockouts
+  - Forecast accuracy improves for products with longer sales history
+
+  When answering questions:
+  - For promotion questions, focus on ROI, lift, and incremental metrics
+  - For forecast questions, reference MAPE and bias indicators
+  - For OSA questions, highlight lost revenue opportunity
+  - Always consider category, region, and store format segmentation
+  - Use time-based comparisons (week-over-week, month-over-month, year-over-year)
