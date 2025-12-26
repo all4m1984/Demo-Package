@@ -1,6 +1,6 @@
 ╔══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                              ║
-║         SNOWFLAKE INTELLIGENCE DEMO PACKAGE - OIL & GAS UPSTREAM            ║
+║              SNOWFLAKE INTELLIGENCE DEMO PACKAGE COLLECTION                 ║
 ║                                                                              ║
 ║                        ✅ SUCCESSFULLY CREATED!                              ║
 ║                                                                              ║
@@ -12,16 +12,30 @@
 Root Level:
   📄 README.md ......................... Main package documentation
 
-Oil & Gas Upstream Operations:
-  📄 QUICK_START.md .................... ⭐ START HERE! (15-min guide)
+📊 Available Demos:
+
+1️⃣  Oil & Gas Upstream Operations:
+  📄 DEMO_GUIDE.md ..................... ⭐ START HERE! (Demo guide)
   📄 README.md ......................... Comprehensive documentation
-  📄 PACKAGE_SUMMARY.md ................ High-level overview
-  📄 demo_script.md .................... Detailed talking points
   
   🗃️  01_setup_environment.sql ......... Database & tables (3-4 min)
   🗃️  02_load_sample_data.sql .......... 120K+ records (2-3 min)
   🗃️  03_setup_intelligence.sql ........ Cortex config (1-2 min)
   🗃️  04_demo_queries.sql .............. Sample queries for demo
+  🗃️  05_upload_semantic_model.sql ..... Upload helper script
+  
+  ⚙️  semantic_model.yaml .............. Cortex Analyst configuration
+
+2️⃣  FMCG Trade Promotion:
+  📄 QUICK_START.md .................... ⭐ START HERE! (15-min guide)
+  📄 README.md ......................... Comprehensive documentation
+  📄 CORTEX_ANALYST_SETUP.md ........... Detailed setup guide
+  
+  🗃️  01_setup_environment.sql ......... Database & tables (3-4 min)
+  🗃️  02_load_sample_data.sql .......... 100K+ records (2-3 min)
+  🗃️  03_setup_intelligence.sql ........ Cortex config (1-2 min)
+  🗃️  04_upload_semantic_model.sql ..... Upload helper script
+  🗃️  05_demo_queries.sql .............. Sample queries for demo
   
   ⚙️  semantic_model.yaml .............. Cortex Analyst configuration
 
@@ -30,26 +44,41 @@ Oil & Gas Upstream Operations:
 🚀 QUICK START (3 EASY STEPS)
 ═══════════════════════════════════════════════════════════════════════════════
 
-Step 1: Open the guide
-   → oil_gas_upstream_operations/QUICK_START.md
+📌 CHOOSE YOUR DEMO:
 
-Step 2: Execute 3 SQL scripts in Snowflake (7 minutes total)
+Option A: Oil & Gas Upstream Operations
+   → oil_gas_upstream_operations/DEMO_GUIDE.md
+
+Option B: FMCG Trade Promotion
+   → fmcg_trade_promotion/QUICK_START.md
+
+Then follow these steps:
+
+Step 1: Open the chosen demo's guide
+   → See folder paths above
+
+Step 2: Execute 3-4 SQL scripts in Snowflake (7 minutes total)
    → 01_setup_environment.sql  (creates database & tables)
-   → 02_load_sample_data.sql   (loads 120K+ realistic records)
+   → 02_load_sample_data.sql   (loads 100K+ realistic records)
    → 03_setup_intelligence.sql (configures Cortex Analyst)
+   → Upload semantic_model.yaml to stage
 
-Step 3: Run the demo (8 minutes)
+Step 3: Run the demo (5-8 minutes)
    → Use Cortex Analyst to ask questions in natural language
-   → Reference: demo_script.md for talking points
+   → Reference the demo guide for talking points
 
-TOTAL TIME: 15 MINUTES ⚡
+TOTAL TIME: ~15 MINUTES PER DEMO ⚡
 
 ═══════════════════════════════════════════════════════════════════════════════
 
 📊 WHAT YOU GET
 ═══════════════════════════════════════════════════════════════════════════════
 
-Data Model:
+📦 TOTAL ACROSS ALL DEMOS: 220,000+ realistic records
+   21 interconnected tables
+   2 complete industry verticals
+
+🛢️  Oil & Gas Upstream Operations (120K+ records):
   ✅ 500 Wells across 10 oil fields
   ✅ 45,000 Daily production records
   ✅ 15,000 Well operations (costs, maintenance)
@@ -59,20 +88,28 @@ Data Model:
   ✅ 18,000 Emissions records
   ✅ 150 Drilling projects (with NPV/IRR)
   ✅ 10,000 Supply chain transactions
-  ───────────────────────────────────
-  📦 TOTAL: 120,000+ realistic records
 
-Business Questions Answered:
-  1. Production optimization - top/bottom performers
-  2. Cost management - high-cost wells
-  3. Equipment reliability - failure predictions
-  4. Reservoir performance - pressure trends
-  5. HSE compliance - safety incidents
-  6. Capital efficiency - project ROI
-  7. Production forecasting - 12-month outlook
-  8. Supply chain - vendor performance
-  9. Emissions & ESG - carbon tracking
-  10. Field development - best economics
+🛒 FMCG Trade Promotion (100K+ records):
+  ✅ 500 Products across 20 categories
+  ✅ 200 Retail stores across multiple formats
+  ✅ 1,000+ Promotional campaigns
+  ✅ 50,000+ Daily sales transactions
+  ✅ 30,000+ Inventory snapshots
+  ✅ 10,000+ Demand forecast records
+  ✅ Supply chain lead time data
+  ✅ On-shelf availability metrics
+
+Business Questions Answered (Combined):
+  ✅ Production & operational optimization
+  ✅ Cost management & profitability
+  ✅ Equipment & asset reliability
+  ✅ Trade promotion effectiveness
+  ✅ Demand forecasting & planning
+  ✅ Inventory & shelf availability
+  ✅ Supply chain optimization
+  ✅ HSE & regulatory compliance
+  ✅ ESG & emissions tracking
+  ✅ Capital efficiency & ROI
 
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -103,10 +140,10 @@ AFTER Snowflake Intelligence:
   ✅ Analysts focus on strategic work
 
 BUSINESS IMPACT:
-  💰 Millions in cost savings
-  📈 Production optimization
+  💰 Millions in cost savings & revenue optimization
+  📈 Operational & promotional excellence
   ⚡ Faster decisions = competitive edge
-  🎯 Data-driven operations
+  🎯 Data-driven operations across industries
 
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -129,35 +166,38 @@ Time & Cost:
 ═══════════════════════════════════════════════════════════════════════════════
 
 For Your First Demo:
-  1. QUICK_START.md ............... Set up in 15 minutes
-  2. demo_script.md ............... Talking points & flow
-  3. 04_demo_queries.sql .......... Sample queries reference
+  
+  🛢️  Oil & Gas:
+    1. DEMO_GUIDE.md ............... 5-8 minute demo guide
+    2. README.md ................... Full documentation
+    3. 04_demo_queries.sql ......... Sample queries reference
+
+  🛒 FMCG:
+    1. QUICK_START.md .............. Set up in 15 minutes
+    2. CORTEX_ANALYST_SETUP.md ..... Detailed setup guide
+    3. 05_demo_queries.sql ......... Sample queries reference
 
 For Deep Understanding:
-  1. README.md .................... Full documentation
-  2. PACKAGE_SUMMARY.md ........... Overview & stats
-  3. semantic_model.yaml .......... AI configuration
+  1. README.md .................... Full documentation (in each folder)
+  2. semantic_model.yaml .......... AI configuration
+  3. SQL scripts .................. Data model & setup details
 
 ═══════════════════════════════════════════════════════════════════════════════
 
-🎬 DEMO FLOW (8 MINUTES)
+🎬 DEMO FLOW (5-8 MINUTES)
 ═══════════════════════════════════════════════════════════════════════════════
 
-Minutes 1-2: Context
-  → Show data model (11 tables, 120K records)
-  → Explain realistic upstream operations
+🛢️  Oil & Gas Demo Flow:
+  Minutes 1-2: Context (11 tables, 120K records, upstream operations)
+  Minutes 3-4: Production & Costs (top wells, high-cost operations)
+  Minutes 5-6: Equipment & Safety (failures, HSE incidents)
+  Minutes 7-8: ESG & Capital (emissions, project ROI)
 
-Minutes 3-4: Production & Costs
-  → "What are my top producing wells?"
-  → "Which wells have high operating costs?"
-
-Minutes 5-6: Equipment & Safety
-  → "Show equipment with most failures"
-  → "What's my safety incident trend?"
-
-Minutes 7-8: ESG & Capital
-  → "What's my carbon emissions intensity?"
-  → "Which drilling projects have best ROI?"
+🛒 FMCG Demo Flow:
+  Minutes 1-2: Context (10 tables, 100K records, retail & promotions)
+  Minutes 3-4: Promotion Performance (ROI, effectiveness by channel)
+  Minutes 5-6: Demand & Inventory (forecasting, out-of-stock analysis)
+  Minutes 7-8: Supply Chain & Availability (lead times, shelf gaps)
 
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -166,18 +206,25 @@ Minutes 7-8: ESG & Capital
 
 After demo, to remove all artifacts:
 
-  DROP DATABASE IF EXISTS OIL_GAS_UPSTREAM_DEMO;
-  DROP WAREHOUSE IF EXISTS DEMO_WH;
+  🛢️  Oil & Gas:
+    DROP DATABASE IF EXISTS OIL_GAS_UPSTREAM_DEMO;
+    DROP WAREHOUSE IF EXISTS DEMO_WH;
+
+  🛒 FMCG:
+    DROP DATABASE IF EXISTS FMCG_TRADE_PROMO_DEMO;
+    DROP WAREHOUSE IF EXISTS DEMO_WH;
 
 ═══════════════════════════════════════════════════════════════════════════════
 
 ✅ YOU'RE READY!
 ═══════════════════════════════════════════════════════════════════════════════
 
-Everything you need is in this package. The setup takes 7 minutes, the demo
-takes 8 minutes. All data is realistic and production-quality.
+Everything you need is in this package. Each demo setup takes ~7 minutes, and 
+the actual demo takes 5-8 minutes. All data is realistic and production-quality.
 
-🚀 START NOW: Open oil_gas_upstream_operations/QUICK_START.md
+🚀 START NOW:
+   🛢️  Oil & Gas → oil_gas_upstream_operations/DEMO_GUIDE.md
+   🛒 FMCG → fmcg_trade_promotion/QUICK_START.md
 
 ═══════════════════════════════════════════════════════════════════════════════
 

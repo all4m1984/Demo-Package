@@ -40,6 +40,38 @@ This repository contains ready-to-use demo packages for showcasing Snowflake Int
 
 ---
 
+### 2. FMCG Trade Promotion ✅ COMPLETED
+**Location:** `/fmcg_trade_promotion/`
+
+**Industry:** FMCG (Fast-Moving Consumer Goods) / Retail  
+**Focus:** Trade promotion optimization, demand forecasting, on-shelf availability  
+**Setup Time:** 7 minutes  
+**Demo Time:** 8 minutes  
+**Total Duration:** 15 minutes
+
+**Key Features:**
+- 100,000+ realistic synthetic records
+- 10 interconnected tables (Products, Stores, Promotions, Sales, Inventory, etc.)
+- 10+ critical business questions with real impact
+- Complete semantic model for Cortex Analyst
+- Comprehensive documentation and quick start guide
+
+**Use Cases Covered:**
+- Trade promotion effectiveness
+- Demand forecasting
+- On-shelf availability & gap analysis
+- Inventory optimization
+- Promotional ROI analysis
+- Store performance analytics
+- Category management
+- Supply chain lead times
+- Product performance tracking
+- Promotional planning
+
+[→ Go to FMCG Demo](./fmcg_trade_promotion/README.md)
+
+---
+
 ## 🚀 Quick Start
 
 ### For First-Time Users
@@ -169,11 +201,11 @@ Each demo package contains:
 - Cost management
 - Regulatory compliance
 
-**Retail** 🛒
-- Inventory optimization
+**Financial Services** 💰
+- Risk management
+- Fraud detection
 - Customer analytics
-- Store operations
-- Supply chain
+- Regulatory compliance
 
 *Want a specific industry? Let us know!*
 
@@ -305,19 +337,20 @@ These demo packages are provided for Snowflake enablement and demonstration purp
 4. **Follow the steps**
 5. **Deliver an amazing demo!**
 
-**Current available demo:**
-- [Oil & Gas Upstream Operations](./oil_gas_upstream_operations/QUICK_START.md) ← Start here!
+**Current available demos:**
+- [Oil & Gas Upstream Operations](./oil_gas_upstream_operations/DEMO_GUIDE.md) ← Energy industry
+- [FMCG Trade Promotion](./fmcg_trade_promotion/QUICK_START.md) ← Retail/FMCG industry
 
 ---
 
 ## 📈 Repository Statistics
 
-- **Demo Packages**: 1 (more coming soon)
-- **Total Tables**: 11
-- **Total Records**: 120,000+
-- **Setup Time**: 7 minutes
-- **Demo Time**: 8 minutes
-- **Documentation Pages**: 50+
+- **Demo Packages**: 2 (more coming soon)
+- **Total Tables**: 21 (across all demos)
+- **Total Records**: 220,000+
+- **Setup Time**: ~7 minutes per demo
+- **Demo Time**: 5-8 minutes per demo
+- **Documentation Pages**: 80+
 
 ---
 
