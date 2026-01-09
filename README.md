@@ -1,10 +1,12 @@
-# Snowflake Intelligence Demo Package
+# Snowflake Cortex Analyst Demo Package
 
-Welcome to the Snowflake Intelligence Demo Package repository!
+Welcome to the Snowflake Cortex Analyst Demo Package repository!
 
 ## 📦 What's Inside
 
-This repository contains ready-to-use demo packages for showcasing Snowflake Intelligence (Cortex Analyst) capabilities across various vertical industries. Each demo is designed to be deployed in 15 minutes or less, with realistic data and business scenarios.
+This repository contains ready-to-use demo packages for showcasing **Snowflake Cortex Analyst** capabilities across various vertical industries. Each demo is designed to be deployed in 15 minutes or less, with realistic data and business scenarios.
+
+**About Cortex Analyst:** Cortex Analyst is Snowflake's AI-powered semantic layer that enables users to ask questions in natural language and receive accurate, SQL-powered answers. These demos showcase standalone Cortex Analyst capabilities and can also be integrated as tools within Snowflake AI Agents for more complex, multi-step workflows.
 
 ## 🎯 Available Demos
 
@@ -119,13 +121,13 @@ This repository contains ready-to-use demo packages for showcasing Snowflake Int
 ### Typical Flow
 
 ```
-Step 1: Setup Environment (SQL script 1) - 3 min
+Step 1: Setup Environment (SQL script 1) - 2 min
    ↓
-Step 2: Load Data (SQL script 2) - 3 min
+Step 2: Load Data (SQL script 2) - 2-4 min
    ↓
-Step 3: Configure Intelligence (SQL script 3) - 1 min
+Step 3: Setup Views & Upload Semantic Model (SQL script 3) - 1 min
    ↓
-Step 4: Run Demo (Cortex Analyst + queries) - 8 min
+Step 4: Run Demo (Ask questions via Cortex Analyst) - 8 min
 ```
 
 ---
@@ -138,13 +140,13 @@ Each demo package contains:
 /[industry_demo_folder]/
 ├── README.md                      # Comprehensive documentation
 ├── QUICK_START.md                 # Fast setup guide
-├── PACKAGE_SUMMARY.md             # High-level overview
+├── DEMO_GUIDE.md                  # Detailed talking points & demo script
 ├── 01_setup_environment.sql       # Database & table creation
 ├── 02_load_sample_data.sql        # Synthetic data generation
-├── 03_setup_intelligence.sql      # Cortex Analyst setup
-├── 04_demo_queries.sql            # Sample analytical queries
-├── semantic_model.yaml            # Cortex Analyst configuration
-└── demo_script.md                 # Detailed talking points
+├── 03_setup_intelligence.sql      # Analytical views creation
+├── 04_upload_semantic_model.sql   # Helper script for semantic model upload
+├── 05_demo_queries.sql            # Sample analytical SQL queries (fallback)
+└── semantic_model.yaml            # Cortex Analyst semantic model configuration
 ```
 
 ---
@@ -207,41 +209,43 @@ Each demo package contains:
 
 ---
 
-## 🔮 Coming Soon
+## 🤖 Using Cortex Analyst with Snowflake AI Agents
 
-### Planned Demo Packages
+### Beyond Standalone Demos
 
-**Mining & Minerals** 🔨
-- Mine operations
-- Equipment monitoring
-- Safety management
-- Production optimization
+While these demos showcase Cortex Analyst as a standalone tool, you can also integrate Cortex Analyst as a **tool within Snowflake AI Agents** to create more sophisticated, multi-step AI workflows.
 
-**Utilities & Energy** ⚡
-- Grid operations
-- Asset management
-- Outage management
-- Renewable integration
+### What are Snowflake AI Agents?
 
-**Manufacturing** 🏭
-- Production lines
-- Quality control
-- Supply chain
-- Predictive maintenance
+Snowflake AI Agents combine multiple tools (including Cortex Analyst, Cortex Search, Python code execution, and custom tools) to handle complex business tasks that require multiple steps, reasoning, and decision-making.
 
-**Healthcare** 🏥
-- Patient outcomes
-- Operational efficiency
-- Cost management
-- Regulatory compliance
+### Example Use Cases
 
-**Financial Services** 💰
-- Risk management
-- Fraud detection
-- Customer analytics
-- Regulatory compliance
+**Oil & Gas:**
+- Agent uses Cortex Analyst to query production data, then calls external API to get commodity prices, and recommends optimization strategies
 
-*Want a specific industry? Let us know!*
+**FMCG/Retail:**
+- Agent analyzes promotion performance with Cortex Analyst, searches documents for similar campaigns, and generates a promotion plan
+
+**Insurance:**
+- Agent queries loss ratios with Cortex Analyst, retrieves policy documents, and provides underwriting recommendations
+
+### Getting Started with Agents
+
+To use Cortex Analyst as a tool in an Agent:
+
+1. **Deploy any demo from this repository** (sets up data + semantic model)
+2. **Create an AI Agent** in Snowflake
+3. **Add Cortex Analyst as a tool** (reference your semantic model)
+4. **Configure additional tools** as needed (Python, APIs, Search, etc.)
+5. **Test multi-step workflows** that leverage your demo data
+
+### Documentation & Resources
+
+- **Cortex Analyst Documentation:** [docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst)
+- **AI Agents Documentation:** [docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents)
+- **Using Cortex Analyst in Agents:** [docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents/tools](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents/tools)
+- **Snowflake Cortex Overview:** [docs.snowflake.com/en/user-guide/snowflake-cortex/overview](https://docs.snowflake.com/en/user-guide/snowflake-cortex/overview)
 
 ---
 
@@ -249,35 +253,43 @@ Each demo package contains:
 
 All demo packages follow consistent documentation:
 
-1. **QUICK_START.md** - Get running in 15 minutes
-2. **README.md** - Comprehensive reference
-3. **demo_script.md** - Minute-by-minute talking points
-4. **PACKAGE_SUMMARY.md** - High-level overview
+1. **QUICK_START.md** - Get running in 15-17 minutes
+2. **README.md** - Comprehensive reference with business context
+3. **DEMO_GUIDE.md** - Minute-by-minute talking points and demo flow
+4. **semantic_model.yaml** - Cortex Analyst configuration with metrics and relationships
 
 Each SQL script is heavily commented with:
-- Business context
+- Business context and purpose
+- Execution time and record counts
 - What the code does
 - Why it matters
-- Expected results
+- Expected results and verification queries
 
 ---
 
 ## 🎓 Learning Resources
 
-### Understanding Snowflake Intelligence
+### Understanding Cortex Analyst
 
-- **Cortex Analyst**: AI-powered natural language to SQL
-- **Semantic Models**: Define business context for AI
-- **Governance**: Security and access control built-in
-- **Integration**: Works with existing data and BI tools
+- **Cortex Analyst**: AI-powered natural language interface that converts questions into accurate SQL
+- **Semantic Models**: YAML-based configuration that defines business context, metrics, and relationships
+- **Governance**: Row-level security and access control built-in through Snowflake's native features
+- **Integration**: Works with existing Snowflake data, views, and can be embedded in applications or used in AI Agents
 
 ### Key Concepts
 
 1. **Natural Language Queries**: Business users ask questions in plain English
-2. **Semantic Understanding**: AI knows your data model and terminology
-3. **SQL Generation**: Accurate SQL generated behind the scenes
-4. **Instant Insights**: From days to seconds for answers
-5. **Democratization**: Everyone accesses data, not just analysts
+2. **Semantic Understanding**: AI understands your data model, business terminology, and relationships through the semantic model
+3. **Accurate SQL Generation**: Cortex Analyst generates precise SQL based on your semantic model definition
+4. **Instant Insights**: Complex queries that used to take days now return answers in seconds
+5. **Data Democratization**: Self-service analytics for all users, not just SQL experts
+6. **Agent Integration**: Use as a tool within Snowflake AI Agents for multi-step workflows
+
+### Additional Learning
+
+- **Cortex Analyst Tutorial:** [docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst/tutorials](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst/tutorials)
+- **Semantic Model Guide:** [docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst/semantic-model-spec](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst/semantic-model-spec)
+- **Best Practices:** [docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst/working-with](https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst/working-with)
 
 ---
 
@@ -380,18 +392,19 @@ These demo packages are provided for Snowflake enablement and demonstration purp
 
 ## 📈 Repository Statistics
 
-- **Demo Packages**: 3 (more coming soon)
+- **Demo Packages**: 3 complete industry demos
 - **Total Tables**: 31 (across all demos)
 - **Total Records**: 320,000+
 - **Industries Covered**: Energy, FMCG/Retail, Insurance/Financial Services
 - **Setup Time**: ~7 minutes per demo
 - **Demo Time**: 5-8 minutes per demo
 - **Documentation Pages**: 120+
+- **Semantic Models**: 3 production-ready YAML files
 
 ---
 
 *Happy Demoing! 🚀*
 
 **Built with ❤️ for the Snowflake community**  
-*Last Updated: December 2025*
+*Last Updated: January 2026*
 
