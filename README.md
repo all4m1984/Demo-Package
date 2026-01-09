@@ -359,13 +359,9 @@ All demos must have:
 ### Need Help?
 - Check the demo's `QUICK_START.md` for troubleshooting
 - Review Snowflake documentation: [docs.snowflake.com](https://docs.snowflake.com)
-- Contact your Snowflake account team
 
 ### Have Feedback?
-- What worked well?
-- What could be improved?
-- What other industries should we add?
-- What features are missing?
+- Please use Issues facility in case there is something wrong or can be improved in this package
 
 ---
 
