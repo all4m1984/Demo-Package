@@ -1,0 +1,1330 @@
+name: Insurance Underwriting & Investment Management (Southeast Asia)
+description: |
+  Semantic model for insurance underwriting performance, claims analysis, 
+  reserve adequacy, and investment portfolio management in Southeast Asia markets
+  (Singapore, Malaysia, Indonesia, Thailand, Philippines, Vietnam). Enables natural 
+  language queries for loss ratios, combined ratios, product profitability, 
+  investment yields, and asset allocation analysis.
+tables:
+  - name: VW_UNDERWRITING_PERFORMANCE
+    description: Product line underwriting performance metrics including loss ratios, combined ratios, and profitability
+    base_table:
+      database: INSURANCE_DEMO
+      schema: UNDERWRITING_INV
+      table: VW_UNDERWRITING_PERFORMANCE
+    dimensions:
+      - name: ACCOUNTING_MONTH
+        synonyms:
+          - accounting period
+          - month
+          - reporting month
+        description: Month for accounting purposes
+        expr: ACCOUNTING_MONTH
+        data_type: date
+      - name: ACCOUNTING_QUARTER
+        synonyms:
+          - Q1
+          - Q2
+          - Q3
+          - Q4
+          - quarter
+        description: Quarter for accounting purposes (1-4)
+        expr: ACCOUNTING_QUARTER
+        data_type: number
+      - name: ACCOUNTING_YEAR
+        synonyms:
+          - calendar year
+          - year
+        description: Year for accounting purposes
+        expr: ACCOUNTING_YEAR
+        data_type: number
+      - name: EXPERIENCE_LEVEL
+        synonyms:
+          - seniority
+          - underwriter level
+        description: Underwriter experience level (Junior, Mid, Senior, Principal)
+        expr: EXPERIENCE_LEVEL
+        data_type: text
+        sample_values:
+          - Junior
+          - Mid
+          - Senior
+          - Principal
+      - name: PRODUCT_CATEGORY
+        synonyms:
+          - category
+          - line category
+        description: Product category (Property, Casualty, Specialty)
+        expr: PRODUCT_CATEGORY
+        data_type: text
+        sample_values:
+          - Property
+          - Casualty
+          - Specialty
+      - name: PRODUCT_ID
+        synonyms:
+          - product code
+        description: Unique product identifier
+        expr: PRODUCT_ID
+        data_type: text
+      - name: PRODUCT_NAME
+        synonyms:
+          - line of business
+          - product
+        description: Insurance product name
+        expr: PRODUCT_NAME
+        data_type: text
+      - name: PRODUCT_TYPE
+        synonyms:
+          - coverage type
+          - product line
+        description: Type of insurance product (Personal Auto, Commercial Auto, Homeowners, etc.)
+        expr: PRODUCT_TYPE
+        data_type: text
+        sample_values:
+          - Personal Auto
+          - Commercial Auto
+          - Homeowners
+          - General Liability
+          - Workers Comp
+      - name: REGION
+        synonyms:
+          - country
+          - geographic region
+          - market
+        description: Southeast Asian country (Singapore, Malaysia, Indonesia, Thailand, Philippines, Vietnam)
+        expr: REGION
+        data_type: text
+        sample_values:
+          - Singapore
+          - Malaysia
+          - Indonesia
+          - Thailand
+          - Philippines
+          - Vietnam
+      - name: STATE
+        synonyms:
+          - country code
+          - jurisdiction
+          - market
+        description: Southeast Asian country code where policy is written
+        expr: STATE
+        data_type: text
+        sample_values:
+          - SG
+          - MY
+          - ID
+          - TH
+          - PH
+          - VN
+      - name: UNDERWRITER_ID
+        synonyms:
+          - underwriter code
+        description: Unique underwriter identifier
+        expr: UNDERWRITER_ID
+        data_type: text
+      - name: UNDERWRITER_NAME
+        synonyms:
+          - underwriter
+          - UW name
+        description: Underwriter full name
+        expr: UNDERWRITER_NAME
+        data_type: text
+    facts:
+      - name: CLAIM_COUNT
+        synonyms:
+          - claim count
+          - claims
+          - number of claims
+        description: Count of claims
+        expr: CLAIM_COUNT
+        data_type: number
+        default_aggregation: sum
+      - name: CLAIM_FREQUENCY
+        synonyms:
+          - claim freq
+          - frequency
+        description: Claims per policy (Claims / Policies)
+        expr: CLAIM_FREQUENCY
+        data_type: number
+        default_aggregation: avg
+      - name: CLAIM_SEVERITY
+        synonyms:
+          - average claim size
+          - severity
+        description: Average claim amount (Incurred Loss / Claim Count)
+        expr: CLAIM_SEVERITY
+        data_type: number
+        default_aggregation: avg
+      - name: COMBINED_RATIO
+        synonyms:
+          - combined
+          - combined ratio percentage
+          - CR
+        description: Combined ratio (Loss Ratio + Expense Ratio). Target is below 100%
+        expr: COMBINED_RATIO
+        data_type: number
+        default_aggregation: avg
+      - name: COMMISSION_EXPENSE
+        synonyms:
+          - commission
+          - commission paid
+          - commissions
+        description: Total commission expense
+        expr: COMMISSION_EXPENSE
+        data_type: number
+        default_aggregation: sum
+      - name: EARNED_PREMIUM
+        synonyms:
+          - earned prem
+          - EP
+          - premium earned
+        description: Total earned premium amount
+        expr: EARNED_PREMIUM
+        data_type: number
+        default_aggregation: sum
+      - name: EXPENSE_RATIO
+        synonyms:
+          - ER
+          - expense ratio percentage
+        description: Expense ratio (Commission / Written Premium * 100)
+        expr: EXPENSE_RATIO
+        data_type: number
+        default_aggregation: avg
+      - name: INCURRED_LOSS
+        synonyms:
+          - incurred losses
+          - loss amount
+          - losses
+        description: Total incurred losses (paid + reserves)
+        expr: INCURRED_LOSS
+        data_type: number
+        default_aggregation: sum
+      - name: LOSS_RATIO
+        synonyms:
+          - loss ratio percentage
+          - LR
+        description: Loss ratio (Incurred Loss / Earned Premium * 100)
+        expr: LOSS_RATIO
+        data_type: number
+        default_aggregation: avg
+      - name: PAID_LOSS
+        synonyms:
+          - loss payments
+          - paid losses
+        description: Total paid losses
+        expr: PAID_LOSS
+        data_type: number
+        default_aggregation: sum
+      - name: POLICY_COUNT
+        synonyms:
+          - number of policies
+          - policies
+          - policy count
+        description: Count of policies
+        expr: POLICY_COUNT
+        data_type: number
+        default_aggregation: sum
+      - name: RESERVE_AMOUNT
+        synonyms:
+          - case reserves
+          - loss reserves
+          - reserves
+        description: Total loss reserves
+        expr: RESERVE_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: WRITTEN_PREMIUM
+        synonyms:
+          - premium written
+          - premiums
+          - WP
+        description: Total written premium amount
+        expr: WRITTEN_PREMIUM
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - PRODUCT_ID
+        - UNDERWRITER_ID
+        - ACCOUNTING_MONTH
+  - name: VW_CLAIMS_ANALYSIS
+    description: Detailed claims information including amounts, status, and policyholder details
+    base_table:
+      database: INSURANCE_DEMO
+      schema: UNDERWRITING_INV
+      table: VW_CLAIMS_ANALYSIS
+    dimensions:
+      - name: CLAIM_ID
+        synonyms:
+          - claim identifier
+        description: Unique claim identifier
+        expr: CLAIM_ID
+        data_type: text
+      - name: CLAIM_NUMBER
+        synonyms:
+          - 'claim #'
+          - claim num
+        description: Claim number
+        expr: CLAIM_NUMBER
+        data_type: text
+      - name: CLAIM_STATUS
+        synonyms:
+          - claim state
+          - status
+        description: Current status of claim (Open, Closed, Reopened)
+        expr: CLAIM_STATUS
+        data_type: text
+        sample_values:
+          - Open
+          - Closed
+          - Reopened
+      - name: CLAIM_TYPE
+        synonyms:
+          - loss type
+          - peril
+          - type of claim
+        description: Type of claim (Collision, Fire, Theft, Liability, etc.)
+        expr: CLAIM_TYPE
+        data_type: text
+        sample_values:
+          - Collision
+          - Fire
+          - Theft
+          - Liability
+          - Bodily Injury
+          - Water Damage
+      - name: CUSTOMER_SEGMENT
+        synonyms:
+          - customer tier
+          - segment
+        description: Customer segment (Preferred, Standard, Non-Standard)
+        expr: CUSTOMER_SEGMENT
+        data_type: text
+        sample_values:
+          - Preferred
+          - Standard
+          - Non-Standard
+      - name: DATE_CLOSED
+        synonyms:
+          - close date
+          - closed date
+        description: Date the claim was closed
+        expr: DATE_CLOSED
+        data_type: date
+      - name: DATE_OF_LOSS
+        synonyms:
+          - DOL
+          - incident date
+          - loss date
+        description: Date the loss occurred
+        expr: DATE_OF_LOSS
+        data_type: date
+      - name: DATE_REPORTED
+        synonyms:
+          - report date
+          - reported date
+        description: Date the claim was reported
+        expr: DATE_REPORTED
+        data_type: date
+      - name: LOSS_QUARTER
+        synonyms:
+          - quarter of loss
+        description: Quarter the loss occurred (1-4)
+        expr: LOSS_QUARTER
+        data_type: number
+      - name: LOSS_YEAR
+        synonyms:
+          - accident year
+          - year of loss
+        description: Year the loss occurred
+        expr: LOSS_YEAR
+        data_type: number
+      - name: POLICY_ID
+        synonyms:
+          - policy identifier
+        description: Policy identifier for join
+        expr: POLICY_ID
+        data_type: text
+      - name: PRODUCT_NAME
+        synonyms:
+          - product
+          - product line
+        description: Insurance product name
+        expr: PRODUCT_NAME
+        data_type: text
+      - name: PRODUCT_TYPE
+        synonyms:
+          - line of business
+          - product type
+        description: Type of insurance product
+        expr: PRODUCT_TYPE
+        data_type: text
+      - name: REGION
+        synonyms:
+          - country
+          - geographic region
+        description: Southeast Asian country
+        expr: REGION
+        data_type: text
+      - name: SEVERITY_CATEGORY
+        synonyms:
+          - claim severity
+          - severity
+        description: Severity category (Low, Medium, High, Catastrophic)
+        expr: SEVERITY_CATEGORY
+        data_type: text
+        sample_values:
+          - Low
+          - Medium
+          - High
+          - Catastrophic
+      - name: STATE
+        synonyms:
+          - country code
+          - market
+        description: Southeast Asian country where claim occurred
+        expr: STATE
+        data_type: text
+      - name: UNDERWRITER_NAME
+        synonyms:
+          - underwriter
+          - UW
+        description: Underwriter name
+        expr: UNDERWRITER_NAME
+        data_type: text
+    facts:
+      - name: ANNUAL_PREMIUM
+        synonyms:
+          - policy premium
+          - premium
+        description: Annual premium for the policy
+        expr: ANNUAL_PREMIUM
+        data_type: number
+        default_aggregation: sum
+      - name: CLAIM_AMOUNT
+        synonyms:
+          - claim value
+          - incurred amount
+          - total loss
+        description: Total incurred claim amount (paid + reserves)
+        expr: CLAIM_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: DAYS_TO_CLOSE
+        synonyms:
+          - closure time
+          - days open
+          - settlement time
+        description: Number of days from report to closure
+        expr: DAYS_TO_CLOSE
+        data_type: number
+        default_aggregation: avg
+      - name: NET_CLAIM_AMOUNT
+        synonyms:
+          - net incurred
+          - net loss
+        description: Net claim amount after recoveries
+        expr: NET_CLAIM_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: PAID_AMOUNT
+        synonyms:
+          - amount paid
+          - paid losses
+          - payments
+        description: Amount paid to date
+        expr: PAID_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: REINSURANCE_RECOVERY
+        synonyms:
+          - ceded recovery
+          - reinsurance
+          - RI recovery
+        description: Amount recovered from reinsurance
+        expr: REINSURANCE_RECOVERY
+        data_type: number
+        default_aggregation: sum
+      - name: RESERVE_AMOUNT
+        synonyms:
+          - outstanding reserves
+          - reserves
+        description: Current reserve amount
+        expr: RESERVE_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: RISK_SCORE
+        synonyms:
+          - policyholder risk
+          - risk rating
+        description: Policyholder risk score (1-100)
+        expr: RISK_SCORE
+        data_type: number
+        default_aggregation: avg
+      - name: SALVAGE_AMOUNT
+        synonyms:
+          - salvage
+          - salvage recovery
+        description: Salvage or subrogation recovery amount
+        expr: SALVAGE_AMOUNT
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - CLAIM_ID
+  - name: VW_RESERVE_ADEQUACY
+    description: Reserve adequacy and development analysis for open claims
+    base_table:
+      database: INSURANCE_DEMO
+      schema: UNDERWRITING_INV
+      table: VW_RESERVE_ADEQUACY
+    dimensions:
+      - name: ACCIDENT_YEAR
+        synonyms:
+          - AY
+          - loss year
+        description: Accident year
+        expr: ACCIDENT_YEAR
+        data_type: number
+      - name: CLAIM_ID
+        synonyms:
+          - claim identifier
+        description: Unique claim identifier
+        expr: CLAIM_ID
+        data_type: text
+      - name: CLAIM_STATUS
+        synonyms:
+          - status
+        description: Claim status
+        expr: CLAIM_STATUS
+        data_type: text
+      - name: CLAIM_TYPE
+        synonyms:
+          - type of claim
+        description: Type of claim
+        expr: CLAIM_TYPE
+        data_type: text
+      - name: DATE_OF_LOSS
+        synonyms:
+          - loss date
+        description: Date of loss
+        expr: DATE_OF_LOSS
+        data_type: date
+      - name: PRODUCT_NAME
+        synonyms:
+          - product
+        description: Product name
+        expr: PRODUCT_NAME
+        data_type: text
+      - name: PRODUCT_TYPE
+        synonyms:
+          - product type
+        description: Product type
+        expr: PRODUCT_TYPE
+        data_type: text
+      - name: REGION
+        synonyms:
+          - geographic region
+        description: Region
+        expr: REGION
+        data_type: text
+      - name: RESERVE_ADEQUACY_STATUS
+        synonyms:
+          - adequacy status
+          - reserve status
+        description: Reserve adequacy status (Adequate, Understated, Overstated)
+        expr: RESERVE_ADEQUACY_STATUS
+        data_type: text
+        sample_values:
+          - Adequate
+          - Understated
+          - Overstated
+      - name: STATE
+        synonyms:
+          - country code
+          - market
+        description: Southeast Asian country
+        expr: STATE
+        data_type: text
+    facts:
+      - name: ACTUARIAL_RESERVE
+        synonyms:
+          - actuarial
+          - total reserves
+        description: Total actuarial reserve (Case + IBNR)
+        expr: ACTUARIAL_RESERVE
+        data_type: number
+        default_aggregation: sum
+      - name: CASE_RESERVE
+        synonyms:
+          - case reserves
+        description: Case reserve amount
+        expr: CASE_RESERVE
+        data_type: number
+        default_aggregation: sum
+      - name: CONFIDENCE_LEVEL
+        synonyms:
+          - confidence
+          - confidence %
+        description: Actuarial confidence level percentage
+        expr: CONFIDENCE_LEVEL
+        data_type: number
+        default_aggregation: avg
+      - name: CURRENT_RESERVE
+        synonyms:
+          - outstanding
+          - reserves
+        description: Current reserve amount
+        expr: CURRENT_RESERVE
+        data_type: number
+        default_aggregation: sum
+      - name: ESTIMATED_ULTIMATE
+        synonyms:
+          - estimated total
+          - projected ultimate
+        description: Estimated ultimate (Paid + Reserves)
+        expr: ESTIMATED_ULTIMATE
+        data_type: number
+        default_aggregation: sum
+      - name: IBNR_RESERVE
+        synonyms:
+          - IBNR
+          - incurred but not reported
+        description: IBNR reserve amount
+        expr: IBNR_RESERVE
+        data_type: number
+        default_aggregation: sum
+      - name: PAID_AMOUNT
+        synonyms:
+          - paid
+          - payments
+        description: Amount paid to date
+        expr: PAID_AMOUNT
+        data_type: number
+        default_aggregation: sum
+      - name: RESERVE_ADEQUACY_PCT
+        synonyms:
+          - adequacy percentage
+          - reserve adequacy %
+        description: Reserve adequacy percentage
+        expr: RESERVE_ADEQUACY_PCT
+        data_type: number
+        default_aggregation: avg
+      - name: ULTIMATE_LOSS
+        synonyms:
+          - expected loss
+          - total loss
+          - ultimate
+        description: Ultimate expected loss amount
+        expr: ULTIMATE_LOSS
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - CLAIM_ID
+        - DATE_OF_LOSS
+  - name: VW_POLICY_SUMMARY
+    description: Policy-level summary information
+    base_table:
+      database: INSURANCE_DEMO
+      schema: UNDERWRITING_INV
+      table: VW_POLICY_SUMMARY
+    dimensions:
+      - name: ACQUISITION_CHANNEL
+        synonyms:
+          - channel
+          - source
+        description: Acquisition channel
+        expr: ACQUISITION_CHANNEL
+        data_type: text
+        sample_values:
+          - Agent
+          - Direct
+          - Broker
+          - Online
+      - name: CUSTOMER_SEGMENT
+        synonyms:
+          - segment
+        description: Customer segment
+        expr: CUSTOMER_SEGMENT
+        data_type: text
+      - name: EFFECTIVE_DATE
+        synonyms:
+          - eff date
+          - start date
+        description: Policy effective date
+        expr: EFFECTIVE_DATE
+        data_type: date
+      - name: EXPERIENCE_LEVEL
+        synonyms:
+          - UW level
+        description: Underwriter experience level
+        expr: EXPERIENCE_LEVEL
+        data_type: text
+      - name: EXPIRATION_DATE
+        synonyms:
+          - end date
+          - exp date
+        description: Policy expiration date
+        expr: EXPIRATION_DATE
+        data_type: date
+      - name: POLICY_ID
+        synonyms:
+          - policy identifier
+        description: Unique policy identifier
+        expr: POLICY_ID
+        data_type: text
+      - name: POLICY_NUMBER
+        synonyms:
+          - 'policy #'
+          - policy num
+        description: Policy number
+        expr: POLICY_NUMBER
+        data_type: text
+      - name: POLICY_STATUS
+        synonyms:
+          - status
+        description: Policy status (Active, Expired, Cancelled)
+        expr: POLICY_STATUS
+        data_type: text
+        sample_values:
+          - Active
+          - Expired
+          - Cancelled
+      - name: POLICY_YEAR
+        synonyms:
+          - policy year
+          - year
+        description: Policy year
+        expr: POLICY_YEAR
+        data_type: number
+      - name: POLICYHOLDER_NAME
+        synonyms:
+          - customer
+          - insured
+          - policyholder
+        description: Policyholder name
+        expr: POLICYHOLDER_NAME
+        data_type: text
+      - name: PRODUCT_NAME
+        synonyms:
+          - product
+        description: Product name
+        expr: PRODUCT_NAME
+        data_type: text
+      - name: PRODUCT_TYPE
+        synonyms:
+          - product type
+        description: Product type
+        expr: PRODUCT_TYPE
+        data_type: text
+      - name: REGION
+        synonyms:
+          - geographic region
+        description: Region
+        expr: REGION
+        data_type: text
+      - name: STATE
+        synonyms:
+          - country code
+          - market
+        description: Southeast Asian country
+        expr: STATE
+        data_type: text
+      - name: UNDERWRITER_NAME
+        synonyms:
+          - underwriter
+        description: Underwriter name
+        expr: UNDERWRITER_NAME
+        data_type: text
+    facts:
+      - name: ANNUAL_PREMIUM
+        synonyms:
+          - policy premium
+          - premium
+        description: Annual premium amount
+        expr: ANNUAL_PREMIUM
+        data_type: number
+        default_aggregation: sum
+      - name: CLAIM_COUNT
+        synonyms:
+          - claims
+          - number of claims
+        description: Total claims on policy
+        expr: CLAIM_COUNT
+        data_type: number
+        default_aggregation: sum
+      - name: COVERAGE_LIMIT
+        synonyms:
+          - coverage
+          - limit
+          - policy limit
+        description: Policy coverage limit
+        expr: COVERAGE_LIMIT
+        data_type: number
+        default_aggregation: sum
+      - name: CREDIT_SCORE
+        synonyms:
+          - credit
+          - FICO
+        description: Policyholder credit score
+        expr: CREDIT_SCORE
+        data_type: number
+        default_aggregation: avg
+      - name: DEDUCTIBLE
+        synonyms:
+          - deductible amount
+        description: Policy deductible
+        expr: DEDUCTIBLE
+        data_type: number
+        default_aggregation: avg
+      - name: POLICY_LOSS_RATIO
+        synonyms:
+          - loss ratio
+          - policy LR
+        description: Policy-level loss ratio
+        expr: POLICY_LOSS_RATIO
+        data_type: number
+        default_aggregation: avg
+      - name: RISK_SCORE
+        synonyms:
+          - risk
+          - risk rating
+        description: Policyholder risk score
+        expr: RISK_SCORE
+        data_type: number
+        default_aggregation: avg
+      - name: TOTAL_CLAIMS
+        synonyms:
+          - claim amount
+          - total losses
+        description: Total claim amount on policy
+        expr: TOTAL_CLAIMS
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - POLICY_ID
+  - name: VW_INVESTMENT_PORTFOLIO
+    description: Investment portfolio holdings and performance
+    base_table:
+      database: INSURANCE_DEMO
+      schema: UNDERWRITING_INV
+      table: VW_INVESTMENT_PORTFOLIO
+    dimensions:
+      - name: ASSET_CLASS
+        synonyms:
+          - asset type
+          - class
+        description: Asset class (Corporate Bonds, Municipal Bonds, Government Bonds, etc.)
+        expr: ASSET_CLASS
+        data_type: text
+        sample_values:
+          - Corporate Bonds
+          - Municipal Bonds
+          - Government Bonds
+          - Mortgage-Backed Securities
+          - Common Stock
+          - Preferred Stock
+          - Real Estate
+      - name: INVESTMENT_ID
+        synonyms:
+          - holding ID
+          - investment identifier
+        description: Unique investment identifier
+        expr: INVESTMENT_ID
+        data_type: text
+      - name: PORTFOLIO_NAME
+        synonyms:
+          - account
+          - portfolio
+        description: Portfolio name (General, Liability-Matched)
+        expr: PORTFOLIO_NAME
+        data_type: text
+        sample_values:
+          - General
+          - Liability-Matched
+      - name: PURCHASE_DATE
+        synonyms:
+          - acquisition date
+          - buy date
+        description: Purchase date
+        expr: PURCHASE_DATE
+        data_type: date
+      - name: RATING
+        synonyms:
+          - bond rating
+          - credit rating
+        description: Credit rating for bonds (AAA, AA+, etc.)
+        expr: RATING
+        data_type: text
+        sample_values:
+          - AAA
+          - AA+
+          - AA
+          - AA-
+          - A+
+          - A
+          - A-
+          - BBB+
+      - name: RATING_CATEGORY
+        synonyms:
+          - quality
+          - rating grade
+        description: Rating category (High Grade, Upper Medium Grade, etc.)
+        expr: RATING_CATEGORY
+        data_type: text
+        sample_values:
+          - High Grade
+          - Upper Medium Grade
+          - Lower Medium Grade
+      - name: SECTOR
+        synonyms:
+          - industry sector
+          - sector
+        description: Industry sector
+        expr: SECTOR
+        data_type: text
+        sample_values:
+          - Financials
+          - Technology
+          - Healthcare
+          - Consumer
+          - Industrials
+          - Utilities
+          - Energy
+          - Materials
+      - name: SECURITY_ID
+        synonyms:
+          - sec ID
+          - security identifier
+        description: Security identifier
+        expr: SECURITY_ID
+        data_type: text
+      - name: SECURITY_NAME
+        synonyms:
+          - holding name
+          - security
+        description: Security name
+        expr: SECURITY_NAME
+        data_type: text
+      - name: SECURITY_TYPE
+        synonyms:
+          - security type
+          - type
+        description: Security type (Bond, Stock, MBS, REIT)
+        expr: SECURITY_TYPE
+        data_type: text
+        sample_values:
+          - Bond
+          - Stock
+          - MBS
+          - REIT
+    facts:
+      - name: COST_BASIS
+        synonyms:
+          - book value
+          - cost
+        description: Total cost basis
+        expr: COST_BASIS
+        data_type: number
+        default_aggregation: sum
+      - name: COUPON_RATE
+        synonyms:
+          - coupon
+          - interest rate
+        description: Coupon rate percentage for bonds
+        expr: COUPON_RATE
+        data_type: number
+        default_aggregation: avg
+      - name: CURRENT_PRICE
+        synonyms:
+          - current value per unit
+          - market price
+        description: Current price per unit
+        expr: CURRENT_PRICE
+        data_type: number
+        default_aggregation: avg
+      - name: DURATION
+        synonyms:
+          - interest rate sensitivity
+          - modified duration
+        description: Duration in years
+        expr: DURATION
+        data_type: number
+        default_aggregation: avg
+      - name: HOLDING_PERIOD_DAYS
+        synonyms:
+          - days held
+          - holding period
+        description: Number of days held
+        expr: HOLDING_PERIOD_DAYS
+        data_type: number
+        default_aggregation: avg
+      - name: MARKET_VALUE
+        synonyms:
+          - current value
+          - market val
+          - MV
+        description: Current market value
+        expr: MARKET_VALUE
+        data_type: number
+        default_aggregation: sum
+      - name: PURCHASE_PRICE
+        synonyms:
+          - buy price
+          - cost per unit
+        description: Purchase price per unit
+        expr: PURCHASE_PRICE
+        data_type: number
+        default_aggregation: avg
+      - name: QUANTITY
+        synonyms:
+          - amount
+          - shares
+          - units
+        description: Quantity or shares held
+        expr: QUANTITY
+        data_type: number
+        default_aggregation: sum
+      - name: REALIZED_GAIN_LOSS
+        synonyms:
+          - gains on sales
+          - realized PL
+        description: Total realized gain/loss from sales
+        expr: REALIZED_GAIN_LOSS
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_INCOME
+        synonyms:
+          - interest and dividends
+          - investment income
+        description: Total investment income (interest + dividends)
+        expr: TOTAL_INCOME
+        data_type: number
+        default_aggregation: sum
+      - name: UNREALIZED_GAIN_LOSS
+        synonyms:
+          - mark to market
+          - paper gain/loss
+          - unrealized PL
+        description: Unrealized gain or loss
+        expr: UNREALIZED_GAIN_LOSS
+        data_type: number
+        default_aggregation: sum
+      - name: UNREALIZED_RETURN_PCT
+        synonyms:
+          - MTM return
+          - unrealized return %
+        description: Unrealized return percentage
+        expr: UNREALIZED_RETURN_PCT
+        data_type: number
+        default_aggregation: avg
+      - name: YEARS_TO_MATURITY
+        synonyms:
+          - remaining term
+          - time to maturity
+        description: Years until maturity
+        expr: YEARS_TO_MATURITY
+        data_type: number
+        default_aggregation: avg
+      - name: YIELD_TO_MATURITY
+        synonyms:
+          - current yield
+          - yield
+          - YTM
+        description: Yield to maturity percentage
+        expr: YIELD_TO_MATURITY
+        data_type: number
+        default_aggregation: avg
+    primary_key:
+      columns:
+        - INVESTMENT_ID
+  - name: VW_INVESTMENT_PERFORMANCE
+    description: Investment performance metrics by time period
+    base_table:
+      database: INSURANCE_DEMO
+      schema: UNDERWRITING_INV
+      table: VW_INVESTMENT_PERFORMANCE
+    dimensions:
+      - name: ACCOUNTING_MONTH
+        synonyms:
+          - month
+          - period
+        description: Accounting month
+        expr: ACCOUNTING_MONTH
+        data_type: date
+      - name: ACCOUNTING_QUARTER
+        synonyms:
+          - quarter
+        description: Accounting quarter (1-4)
+        expr: ACCOUNTING_QUARTER
+        data_type: number
+      - name: ACCOUNTING_YEAR
+        synonyms:
+          - year
+        description: Accounting year
+        expr: ACCOUNTING_YEAR
+        data_type: number
+      - name: ASSET_CLASS
+        synonyms:
+          - asset type
+        description: Asset class
+        expr: ASSET_CLASS
+        data_type: text
+      - name: PORTFOLIO_NAME
+        synonyms:
+          - portfolio
+        description: Portfolio name
+        expr: PORTFOLIO_NAME
+        data_type: text
+      - name: SECTOR
+        synonyms:
+          - industry sector
+        description: Industry sector
+        expr: SECTOR
+        data_type: text
+      - name: SECURITY_TYPE
+        synonyms:
+          - type
+        description: Security type
+        expr: SECURITY_TYPE
+        data_type: text
+    facts:
+      - name: ANNUALIZED_YIELD_PCT
+        synonyms:
+          - portfolio yield
+          - yield
+          - yield %
+        description: Annualized yield percentage
+        expr: ANNUALIZED_YIELD_PCT
+        data_type: number
+        default_aggregation: avg
+      - name: HOLDINGS_COUNT
+        synonyms:
+          - number of holdings
+          - positions
+        description: Number of holdings
+        expr: HOLDINGS_COUNT
+        data_type: number
+        default_aggregation: sum
+      - name: PORTFOLIO_VALUE
+        synonyms:
+          - portfolio market value
+          - total value
+        description: Portfolio market value
+        expr: PORTFOLIO_VALUE
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_DIVIDEND_INCOME
+        synonyms:
+          - dividend income
+          - dividends
+        description: Total dividend income
+        expr: TOTAL_DIVIDEND_INCOME
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_INTEREST_INCOME
+        synonyms:
+          - interest
+          - interest income
+        description: Total interest income
+        expr: TOTAL_INTEREST_INCOME
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_INVESTMENT_INCOME
+        synonyms:
+          - investment income
+          - total income
+        description: Total investment income (interest + dividends)
+        expr: TOTAL_INVESTMENT_INCOME
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_PURCHASES
+        synonyms:
+          - buy activity
+          - purchases
+        description: Total purchase amount
+        expr: TOTAL_PURCHASES
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_REALIZED_GAINS
+        synonyms:
+          - capital gains
+          - realized gains
+        description: Total realized gains
+        expr: TOTAL_REALIZED_GAINS
+        data_type: number
+        default_aggregation: sum
+      - name: TOTAL_SALES
+        synonyms:
+          - sales
+          - sell activity
+        description: Total sales amount
+        expr: TOTAL_SALES
+        data_type: number
+        default_aggregation: sum
+    primary_key:
+      columns:
+        - ACCOUNTING_MONTH
+        - PORTFOLIO_NAME
+        - ASSET_CLASS
+relationships:
+  - name: claims_to_policies
+    left_table: VW_CLAIMS_ANALYSIS
+    right_table: VW_POLICY_SUMMARY
+    join_type: left_outer
+    relationship_columns:
+      - left_column: POLICY_ID
+        right_column: POLICY_ID
+verified_queries:
+  - name: combined_ratio_by_product
+    question: What is the combined ratio by product line for the last 12 months?
+    sql: |
+      SELECT 
+        PRODUCT_TYPE,
+        PRODUCT_NAME,
+        AVG(COMBINED_RATIO) as AVG_COMBINED_RATIO,
+        AVG(LOSS_RATIO) as AVG_LOSS_RATIO,
+        AVG(EXPENSE_RATIO) as AVG_EXPENSE_RATIO
+      FROM VW_UNDERWRITING_PERFORMANCE
+      WHERE ACCOUNTING_MONTH >= DATEADD(month, -12, CURRENT_DATE())
+      GROUP BY 1, 2
+      ORDER BY AVG_COMBINED_RATIO DESC
+    verified_at: 1735200000
+    verified_by: data_analyst
+    use_as_onboarding_question: true
+  - name: high_loss_ratio_products
+    question: Which product lines have loss ratios above 65%?
+    sql: |
+      SELECT 
+        PRODUCT_TYPE,
+        AVG(LOSS_RATIO) as AVG_LOSS_RATIO,
+        SUM(EARNED_PREMIUM) as TOTAL_EARNED_PREMIUM,
+        SUM(INCURRED_LOSS) as TOTAL_INCURRED_LOSS
+      FROM VW_UNDERWRITING_PERFORMANCE
+      WHERE ACCOUNTING_YEAR = YEAR(CURRENT_DATE())
+      GROUP BY 1
+      HAVING AVG(LOSS_RATIO) > 65
+      ORDER BY AVG_LOSS_RATIO DESC
+    verified_at: 1735200300
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+  - name: top_underwriters_by_combined_ratio
+    question: Who are the top 10 underwriters by combined ratio?
+    sql: |
+      SELECT 
+        UNDERWRITER_NAME,
+        EXPERIENCE_LEVEL,
+        REGION,
+        AVG(COMBINED_RATIO) as AVG_COMBINED_RATIO,
+        SUM(EARNED_PREMIUM) as TOTAL_EARNED_PREMIUM
+      FROM VW_UNDERWRITING_PERFORMANCE
+      WHERE ACCOUNTING_YEAR = YEAR(CURRENT_DATE())
+      GROUP BY 1, 2, 3
+      ORDER BY AVG_COMBINED_RATIO ASC
+      LIMIT 10
+    verified_at: 1735200600
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+  - name: asset_allocation
+    question: What is our current asset allocation?
+    sql: |
+      SELECT 
+        ASSET_CLASS,
+        SUM(MARKET_VALUE) as TOTAL_MARKET_VALUE,
+        ROUND(SUM(MARKET_VALUE) / (SELECT SUM(MARKET_VALUE) FROM VW_INVESTMENT_PORTFOLIO) * 100, 2) as ALLOCATION_PCT
+      FROM VW_INVESTMENT_PORTFOLIO
+      GROUP BY 1
+      ORDER BY TOTAL_MARKET_VALUE DESC
+    verified_at: 1735200900
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+  - name: portfolio_yield_comparison
+    question: What is our portfolio yield compared to last quarter?
+    sql: |
+      SELECT 
+        ACCOUNTING_QUARTER,
+        ACCOUNTING_YEAR,
+        AVG(ANNUALIZED_YIELD_PCT) as AVG_YIELD
+      FROM VW_INVESTMENT_PERFORMANCE
+      WHERE ACCOUNTING_YEAR >= YEAR(CURRENT_DATE()) - 1
+      GROUP BY 1, 2
+      ORDER BY ACCOUNTING_YEAR DESC, ACCOUNTING_QUARTER DESC
+    verified_at: 1735201200
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+  - name: investment_income_monthly
+    question: How much investment income are we generating monthly?
+    sql: |
+      SELECT 
+        ACCOUNTING_MONTH,
+        SUM(TOTAL_INVESTMENT_INCOME) as TOTAL_INCOME,
+        SUM(TOTAL_INTEREST_INCOME) as INTEREST_INCOME,
+        SUM(TOTAL_DIVIDEND_INCOME) as DIVIDEND_INCOME
+      FROM VW_INVESTMENT_PERFORMANCE
+      WHERE ACCOUNTING_YEAR = YEAR(CURRENT_DATE())
+      GROUP BY 1
+      ORDER BY 1 DESC
+    verified_at: 1735201500
+    verified_by: data_analyst
+    use_as_onboarding_question: false
+custom_instructions: |
+  This semantic model covers insurance underwriting and investment management data.
+
+  Key Insurance Metrics:
+  - Combined Ratio = Loss Ratio + Expense Ratio. Target is below 100%. Above 100% indicates underwriting loss.
+  - Loss Ratio = Incurred Losses / Earned Premium * 100. Varies by product: Auto (60-70%), Property (55-65%), Liability (65-75%).
+  - Expense Ratio = Commission / Written Premium * 100. Typically 20-30%.
+  - Claim Frequency = Number of Claims / Number of Policies. Measures how often claims occur.
+  - Claim Severity = Total Incurred Loss / Number of Claims. Measures average claim size.
+
+  Key Investment Metrics:
+  - Yield to Maturity (YTM): The annualized return on a bond if held to maturity.
+  - Duration: Measures interest rate sensitivity. Higher duration = higher interest rate risk.
+  - Asset Allocation: Distribution of investments across asset classes (bonds, stocks, etc.).
+  - Unrealized Gain/Loss: Paper gain or loss based on current market value vs. cost basis.
+  - Realized Gain/Loss: Actual gain or loss from selling investments.
+
+  Product Lines:
+  - Personal Auto: Individual automobile insurance (liability and physical damage)
+  - Commercial Auto: Business vehicle insurance
+  - Homeowners: Residential property insurance
+  - Commercial Property: Business property insurance
+  - General Liability: Business liability coverage
+  - Workers Compensation: Employee injury coverage
+  - Professional Liability: Errors and omissions coverage
+  - Umbrella: Excess liability coverage
+
+  Reserve Types:
+  - Case Reserves: Reserves for known claims
+  - IBNR (Incurred But Not Reported): Reserves for claims that have occurred but not yet reported
+  - Reserve Adequacy: Whether reserves are sufficient. "Understated" means reserves are too low, "Overstated" means too high.
+
+  Investment Asset Classes:
+  - Corporate Bonds: Debt issued by corporations
+  - Municipal Bonds: Tax-exempt bonds issued by state/local governments
+  - Government Bonds: US Treasury and agency bonds
+  - Mortgage-Backed Securities (MBS): Bonds backed by mortgage pools
+  - Common Stock: Equity ownership in companies
+  - Preferred Stock: Hybrid security with equity and bond characteristics
+  - Real Estate: REITs and direct real estate holdings
+
+  When analyzing underwriting performance:
+  - Compare actual loss ratios to target loss ratios
+  - Look for trends over time (monthly, quarterly, yearly)
+  - Compare performance across products, regions, and underwriters
+  - Analyze claims frequency vs. severity to understand root causes
+
+  When analyzing investment performance:
+  - Compare actual allocation to strategic targets
+  - Monitor yield trends and compare to benchmarks
+  - Assess duration gap between assets and liabilities (ALM)
+  - Track both unrealized and realized gains/losses
+
+  Regulatory Context:
+  - Insurers must maintain adequate reserves to pay future claims
+  - Investment portfolios must meet regulatory requirements and risk limits
+  - Combined ratios consistently above 100% indicate unprofitable underwriting
+  - Duration matching between assets and liabilities is critical for interest rate risk management

@@ -72,6 +72,40 @@ This repository contains ready-to-use demo packages for showcasing Snowflake Int
 
 ---
 
+### 3. Insurance Underwriting & Investment Management (Southeast Asia) ✅ COMPLETED
+**Location:** `/insurance_underwriting_investment/`
+
+**Industry:** Insurance / Financial Services  
+**Region:** Southeast Asia (Singapore, Malaysia, Indonesia, Thailand, Philippines, Vietnam)  
+**Focus:** Underwriting profitability, loss ratios, investment portfolio management  
+**Setup Time:** 7 minutes  
+**Demo Time:** 8 minutes  
+**Total Duration:** 15 minutes
+
+**Key Features:**
+- 100,000+ realistic synthetic records
+- 10 interconnected tables (Policies, Claims, Premiums, Reserves, Investments, etc.)
+- 10+ critical executive questions with real business impact
+- Complete semantic model for Cortex Analyst
+- Regional brokers and reinsurers (DBS, UOB, CGS-CIMB, Asia Capital Re, etc.)
+- Comprehensive documentation and demo guides
+
+**Use Cases Covered:**
+- Loss ratio analysis & combined ratio management
+- Product line profitability
+- Underwriter performance tracking
+- Claims frequency & severity analysis
+- Reserve adequacy monitoring
+- Investment portfolio allocation
+- Portfolio yield optimization
+- Duration matching (Asset-Liability Management)
+- Investment income analysis
+- Reinsurance effectiveness
+
+[→ Go to Insurance Demo](./insurance_underwriting_investment/README.md)
+
+---
+
 ## 🚀 Quick Start
 
 ### For First-Time Users
@@ -340,17 +374,19 @@ These demo packages are provided for Snowflake enablement and demonstration purp
 **Current available demos:**
 - [Oil & Gas Upstream Operations](./oil_gas_upstream_operations/DEMO_GUIDE.md) ← Energy industry
 - [FMCG Trade Promotion](./fmcg_trade_promotion/QUICK_START.md) ← Retail/FMCG industry
+- [Insurance Underwriting & Investment](./insurance_underwriting_investment/QUICK_START.md) ← Insurance/Financial Services
 
 ---
 
 ## 📈 Repository Statistics
 
-- **Demo Packages**: 2 (more coming soon)
-- **Total Tables**: 21 (across all demos)
-- **Total Records**: 220,000+
+- **Demo Packages**: 3 (more coming soon)
+- **Total Tables**: 31 (across all demos)
+- **Total Records**: 320,000+
+- **Industries Covered**: Energy, FMCG/Retail, Insurance/Financial Services
 - **Setup Time**: ~7 minutes per demo
 - **Demo Time**: 5-8 minutes per demo
-- **Documentation Pages**: 80+
+- **Documentation Pages**: 120+
 
 ---
 
