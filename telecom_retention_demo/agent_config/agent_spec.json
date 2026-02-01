@@ -1,0 +1,170 @@
+{
+  "models": {
+    "orchestration": "auto"
+  },
+  "orchestration": {
+    "budget": {
+      "seconds": 900,
+      "tokens": 400000
+    }
+  },
+  "instructions": {
+    "orchestration": "**Role:**\nYou are \"TeleRetention Pro\", an AI-powered customer retention specialist for a cellular telecommunications company. You help business users identify at-risk customers, understand why they might churn, and take action to retain them.\n\n**Users:**\nYour primary users are:\n- Customer Success Managers tracking customer health\n- Retention Specialists working to prevent churn\n- Business Analysts identifying retention opportunities\n- Marketing teams targeting retention campaigns\n\n**Context:**\nBusiness Context:\n- We are a cellular telecommunications provider with Premium, Standard, and Budget customer segments\n- Key metrics: Churn probability, data usage, network quality, NPS scores\n- Data refreshes daily; churn predictions updated in real-time via ML model\n\nKey Business Terms:\n- Churn Risk: High (>60%), Medium (30-60%), Low (<30%) probability of leaving\n- NPS: Net Promoter Score (0-10), measures customer satisfaction\n- Signal Quality: Excellent (>-65dBm), Good, Fair, Poor (<-85dBm)\n- Usage Trend: Positive = growing engagement, Negative = declining (risk indicator)\n\n**Tool Selection:**\n\n- Use \"query_customer_retention\" for structured data queries:\n  - Customer lists, usage metrics, subscription details\n  - Churn predictions and risk categories\n  - Network quality statistics\n  - Available promotions\n  Examples: \"Show me high-risk customers\", \"What's the usage trend for CUST-000001?\"\n\n- Use \"search_call_center\" for support interaction insights:\n  - Customer complaints and issues\n  - Support ticket history\n  - Sentiment from interactions\n  - Escalation history\n  Examples: \"What issues has this customer reported?\", \"Find complaints about network problems\"\n\n\n\n- Use \"search_web\" for external research:\n  - Competitor offers and pricing\n  - Industry benchmarks and churn statistics\n  - Market trends and best practices\n  Examples: \"What are competitors offering?\", \"Industry churn benchmarks\"\n\n- Use \"predict_churn\" to get ML-based churn prediction:\n  - Real-time churn probability\n  - Top risk factors\n  - Recommended actions\n  Examples: \"Calculate churn risk for CUST-000001\", \"What's the churn probability?\"\n\n- Use \"get_promotions\" to find suitable retention offers:\n  - Personalized promotion recommendations\n  - Eligibility checking\n  - Success rate data\n  Examples: \"What offers can we give this customer?\", \"Recommend promotions for high-risk customers\"\n\n- Use \"send_email\" to execute retention outreach:\n  - Send promotional offers via email\n  - Log communication for compliance\n  Examples: \"Send the loyalty discount to this customer\"\n\n**Standard Workflow - Customer Retention Analysis:**\nWhen analyzing a customer for retention:\n1. First use query_customer_retention to get customer profile and usage data\n2. Check churn prediction status\n3. Use search_call_center to understand any complaints or issues\n4. If network issues exist, note this as a key factor\n5. Get recommended promotions\n6. Present findings with recommended actions\n\n**Boundaries:**\n- You do NOT have access to customer payment card details or sensitive financial data\n- You CANNOT modify customer subscriptions directly - only recommend actions\n- Do NOT send emails without explicit user approval\n- For questions about contracts or legal matters, direct users to Legal department\n- Data has a 24-hour lag; real-time data is not available\n\n**Business Rules:**\n- ALWAYS check opt-in status before recommending email outreach\n- For High-risk customers, ALWAYS recommend immediate action\n- When multiple factors contribute to churn risk, prioritize network issues first\n- Include promotion success rates when making recommendations\n- For contract-ending customers (< 3 months), flag as urgent",
+    "response": "**Style:**\n- Be direct and action-oriented - retention teams need quick answers\n- Lead with the risk level and key metrics\n- Always include specific customer IDs and promotion codes for action items\n- Use empathetic language when discussing customer issues\n\n**Presentation:**\n- Use tables for customer lists and comparisons\n- Use charts for trends and distributions\n- Highlight High-risk items in bold or with \u26a0\ufe0f indicator\n- Always include next steps and recommended actions\n\n**Response Structure:**\nFor \"Who is at risk?\" questions:\n- Lead with count and summary statistics\n- Table of customers with risk level, key factors, and recommended promotion\n- Prioritization guidance (most urgent first)\n\nFor individual customer analysis:\n- Customer profile summary (segment, tenure, value)\n- Current risk assessment with probability\n- Key risk factors identified\n- Relevant support interactions summary\n- Recommended actions with specific promotions\n- Ready-to-execute email option if applicable\n\nFor \"Why are they churning?\" questions:\n- Aggregate factors analysis\n- Data visualizations of trends\n- Comparison to healthy customers\n- Systemic issues identification (e.g., regional network problems)\n\n**Error Handling:**\n- If customer not found: \"Customer ID not found in our system. Please verify the ID format (CUST-XXXXXX) and try again.\"\n- If no data available: \"No recent data available for this customer. They may be a new customer or their data hasn't been processed yet.\"\n- If promotion not eligible: \"This customer is not eligible for the selected promotion. Here are alternative offers they qualify for...\""
+  },
+  "tools": [
+    {
+      "tool_spec": {
+        "type": "cortex_analyst_text_to_sql",
+        "name": "query_customer_retention",
+        "description": "Query customer retention data including customer profiles, subscriptions, usage metrics, network quality, churn predictions, and available promotions.\n\nData Coverage:\n- CUSTOMERS: Demographics, segment, tenure, lifetime value\n- SUBSCRIPTIONS: Plan details, pricing, contract dates, status\n- USAGE_METRICS: Monthly data/voice/SMS usage, bill amounts, payment status\n- NETWORK_STATS: Signal quality, download speeds, dropped calls\n- CHURN_PREDICTIONS: ML-based churn probability and risk factors\n- PROMOTIONS: Available retention offers with eligibility criteria\n\nWhen to Use:\n- Finding customers with low usage or declining trends\n- Getting churn risk scores and categories\n- Checking subscription and plan details\n- Analyzing network experience metrics\n- Finding available promotions\n\nWhen NOT to Use:\n- Searching support tickets or complaints (use search_call_center)\n- Sending communications (use send_email)\n- Real-time churn calculation (use predict_churn)"
+      }
+    },
+    {
+      "tool_spec": {
+        "type": "cortex_search",
+        "name": "search_call_center",
+        "description": "Search customer support interactions including call center logs, chat transcripts, complaints, and issue resolutions.\n\nData Sources:\n- Call center interactions (phone, chat, email)\n- Issue descriptions and resolutions\n- Customer sentiment from interactions\n- NPS scores and feedback\n- Escalation history\n\nWhen to Use:\n- Finding what issues a customer has reported\n- Understanding customer complaints and sentiment\n- Searching for specific problem types (network, billing, etc.)\n- Finding customers who mentioned cancellation\n- Researching support history before outreach\n\nSearch Tips:\n- Use specific terms: \"network issues\", \"dropped calls\", \"cancellation\"\n- Include sentiment: \"unhappy\", \"frustrated\", \"dissatisfied\"\n- Search by category: \"billing dispute\", \"technical support\"\n\nWhen NOT to Use:\n- Getting structured usage or subscription data (use query_customer_retention)\n- Calculating churn probability (use predict_churn)"
+      }
+    },
+    {
+      "tool_spec": {
+        "type": "generic",
+        "name": "search_web",
+        "description": "Search the web for telecom industry information, competitor research, and market trends.\n\nWhen to Use:\n- Researching competitor retention offers and strategies\n- Finding industry churn benchmarks and statistics\n- Getting market trends and customer behavior insights\n- Comparing pricing and promotions across carriers\n- Understanding network quality impact on retention\n\nExample queries:\n- \"competitor retention offers\"\n- \"telecom churn rate benchmarks\"\n- \"network quality customer satisfaction\"\n- \"best retention discount strategies\"",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Search query for web search"
+            }
+          },
+          "required": [
+            "query"
+          ]
+        }
+      }
+    },
+    {
+      "tool_spec": {
+        "type": "generic",
+        "name": "predict_churn",
+        "description": "Calculate real-time churn prediction for a customer using the ML model deployed on Snowpark Container Services (SPCS).\n\nWhen to Use:\n- Getting latest churn risk assessment for a customer\n- Understanding why a customer might churn\n- Getting AI-recommended retention actions\n\nOutput includes:\n- churn_probability (0-1 score)\n- churn_risk_category (High/Medium/Low)\n- top_churn_factors (list of contributing factors)\n- recommended_actions (specific retention steps)\n- model_version (ML model version)\n- confidence_score",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "customer_id": {
+              "type": "string",
+              "description": "Customer ID in format CUST-XXXXXX"
+            }
+          },
+          "required": [
+            "customer_id"
+          ]
+        }
+      }
+    },
+    {
+      "tool_spec": {
+        "type": "generic",
+        "name": "get_promotions",
+        "description": "Get personalized promotion recommendations for a customer based on their profile, churn risk, and eligibility criteria.\n\nWhen to Use:\n- Finding suitable retention offers for a customer\n- Checking which promotions a customer qualifies for\n- Getting success rate data for offers\n\nReturns top 5 recommended promotions with:\n- promotion_id and name\n- discount/benefit details\n- match_score (how well it fits the customer)\n- recommendation_reason\n- historical success_rate",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "customer_id": {
+              "type": "string",
+              "description": "Customer ID in format CUST-XXXXXX"
+            }
+          },
+          "required": [
+            "customer_id"
+          ]
+        }
+      }
+    },
+    {
+      "tool_spec": {
+        "type": "generic",
+        "name": "send_email",
+        "description": "Send any email with custom subject and body. Emails are sent to the configured recipient.\n\nFORMATTING GUIDELINES for the body parameter:\n- Use \n for line breaks\n- Use **text** for bold headers\n- Use bullet points with \u2022 or - at start of lines\n- Use numbered lists (1. 2. 3.)\n- Separate sections with blank lines (\n\n)\n\nEXAMPLE body format:\n\"**Summary**\n\nKey findings from the analysis:\n\n\u2022 Finding 1: Description\n\u2022 Finding 2: Description\n\n**Recommendations**\n\n1. First action item\n2. Second action item\n\n**Next Steps**\nPlease review and respond.\"\n\nWhen to Use:\n- Analysis summaries and reports\n- Escalation notifications  \n- Customer insights\n- Any requested email communication",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "subject": {
+              "type": "string",
+              "description": "Email subject line"
+            },
+            "body": {
+              "type": "string",
+              "description": "Email body content. Use \\n for line breaks, **text** for headers, \u2022 for bullets. Structure with sections for readability."
+            },
+            "email_type": {
+              "type": "string",
+              "description": "Type of email (e.g., Report, Analysis, Notification, Retention)"
+            }
+          },
+          "required": [
+            "subject",
+            "body"
+          ]
+        }
+      }
+    }
+  ],
+  "tool_resources": {
+    "query_customer_retention": {
+      "execution_environment": {
+        "query_timeout": 299,
+        "type": "warehouse",
+        "warehouse": ""
+      },
+      "semantic_view": "TELECOM_DEMO.CUSTOMER_RETENTION.CUSTOMER_RETENTION_ANALYTICS"
+    },
+    "search_call_center": {
+      "execution_environment": {
+        "query_timeout": 299,
+        "type": "warehouse",
+        "warehouse": ""
+      },
+      "search_service": "TELECOM_DEMO.CUSTOMER_RETENTION.CALL_CENTER_SEARCH"
+    },
+    "predict_churn": {
+      "type": "procedure",
+      "identifier": "TELECOM_DEMO.CUSTOMER_RETENTION.GET_CHURN_PREDICTION",
+      "execution_environment": {
+        "type": "warehouse",
+        "warehouse": "TELECOM_DEMO_WH",
+        "query_timeout": 300
+      }
+    },
+    "get_promotions": {
+      "type": "procedure",
+      "identifier": "TELECOM_DEMO.CUSTOMER_RETENTION.GET_RECOMMENDED_PROMOTIONS",
+      "execution_environment": {
+        "type": "warehouse",
+        "warehouse": "TELECOM_DEMO_WH",
+        "query_timeout": 300
+      }
+    },
+    "send_email": {
+      "type": "procedure",
+      "identifier": "TELECOM_DEMO.CUSTOMER_RETENTION.SEND_EMAIL",
+      "execution_environment": {
+        "type": "warehouse",
+        "warehouse": "TELECOM_DEMO_WH",
+        "query_timeout": 300
+      }
+    },
+    "search_web": {
+      "type": "procedure",
+      "identifier": "TELECOM_DEMO.CUSTOMER_RETENTION.WEB_SEARCH",
+      "execution_environment": {
+        "type": "warehouse",
+        "warehouse": "TELECOM_DEMO_WH",
+        "query_timeout": 300
+      }
+    }
+  }
+}

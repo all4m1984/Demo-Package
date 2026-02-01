@@ -4,7 +4,7 @@ Welcome to the Snowflake Cortex Analyst Demo Package repository!
 
 ## 📦 What's Inside
 
-This repository contains ready-to-use demo packages for showcasing **Snowflake Cortex Analyst** capabilities across various vertical industries. Each demo is designed to be deployed in 15 minutes or less, with realistic data and business scenarios.
+This repository contains ready-to-use demo packages for showcasing **Snowflake Cortex Analyst** and **Snowflake Intelligence** capabilities across various vertical industries. Each demo is designed to be deployed quickly, with realistic data and business scenarios.
 
 **About Cortex Analyst:** Cortex Analyst is Snowflake's AI-powered semantic layer that enables users to ask questions in natural language and receive accurate, SQL-powered answers. These demos showcase standalone Cortex Analyst capabilities and can also be integrated as tools within Snowflake AI Agents for more complex, multi-step workflows.
 
@@ -108,6 +108,23 @@ This repository contains ready-to-use demo packages for showcasing **Snowflake C
 
 ---
 
+### 4. Telecom Customer Retention (Snowflake Intelligence) ✅ COMPLETED
+**Location:** `/telecom_retention_demo/`
+
+**Industry:** Telecommunications  
+**Focus:** Customer retention, churn prediction, agentic workflows  
+**Components:** Cortex Analyst + Cortex Search + SPCS ML model + Agent tools
+
+**Key Features:**
+- End-to-end Snowflake Intelligence agent (SQL, search, web, email)
+- Churn prediction via SPCS (optional) with rule-based fallback
+- Synthetic customer, usage, network, and call center datasets
+- Agent spec and custom tools for retention workflows
+
+[→ Go to Telecom Retention Demo](./telecom_retention_demo/README.md)
+
+---
+
 ## 🚀 Quick Start
 
 ### For First-Time Users
@@ -134,7 +151,7 @@ Step 4: Run Demo (Ask questions via Cortex Analyst) - 8 min
 
 ## 📂 Demo Package Structure
 
-Each demo package contains:
+Each Cortex Analyst demo package contains:
 
 ```
 /[industry_demo_folder]/
@@ -147,6 +164,16 @@ Each demo package contains:
 ├── 04_upload_semantic_model.sql   # Helper script for semantic model upload
 ├── 05_demo_queries.sql            # Sample analytical SQL queries (fallback)
 └── semantic_model.yaml            # Cortex Analyst semantic model configuration
+```
+
+The Snowflake Intelligence demo uses a different structure:
+
+```
+/telecom_retention_demo/
+├── README.md                      # Comprehensive documentation
+├── sql/                           # Database + agent setup scripts
+├── ml_model/                      # SPCS model + deployment scripts
+└── agent_config/                  # Agent specification
 ```
 
 ---
@@ -383,19 +410,16 @@ These demo packages are provided for Snowflake enablement and demonstration purp
 - [Oil & Gas Upstream Operations](./oil_gas_upstream_operations/DEMO_GUIDE.md) ← Energy industry
 - [FMCG Trade Promotion](./fmcg_trade_promotion/QUICK_START.md) ← Retail/FMCG industry
 - [Insurance Underwriting & Investment](./insurance_underwriting_investment/QUICK_START.md) ← Insurance/Financial Services
+- [Telecom Customer Retention](./telecom_retention_demo/README.md) ← Telecommunications
 
 ---
 
 ## 📈 Repository Statistics
 
-- **Demo Packages**: 3 complete industry demos
-- **Total Tables**: 31 (across all demos)
-- **Total Records**: 320,000+
-- **Industries Covered**: Energy, FMCG/Retail, Insurance/Financial Services
-- **Setup Time**: ~7 minutes per demo
-- **Demo Time**: 5-8 minutes per demo
+- **Demo Packages**: 4 complete industry demos
+- **Industries Covered**: Energy, FMCG/Retail, Insurance/Financial Services, Telecommunications
 - **Documentation Pages**: 120+
-- **Semantic Models**: 3 production-ready YAML files
+- **Semantic Models**: 3 production-ready YAML files (Cortex Analyst demos)
 
 ---
 

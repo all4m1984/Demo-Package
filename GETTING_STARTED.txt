@@ -54,6 +54,20 @@ Root Level:
   
   Markets: SG, MY, ID, TH, PH, VN
 
+4️⃣  Telecom Customer Retention (Snowflake Intelligence):
+  📄 README.md ......................... Comprehensive documentation
+  📄 ml_model/SPCS_DEPLOYMENT_GUIDE.md . SPCS deployment steps (optional)
+
+  🗃️  sql/01_setup_database.sql ........ Database & tables
+  🗃️  sql/02_generate_synthetic_data.sql Synthetic customer data
+  🗃️  sql/03_create_semantic_view.sql .. Cortex Analyst semantic view
+  🗃️  sql/04_create_cortex_search.sql .. Cortex Search service
+  🗃️  sql/05_deploy_spcs.sql ........... SPCS deployment (optional)
+  🗃️  sql/06_create_stored_procedures.sql Agent tools
+  🗃️  sql/07_create_agent.sql .......... Snowflake Intelligence agent
+
+  ⚙️  agent_config/agent_spec.json ..... Full agent specification
+
 ═══════════════════════════════════════════════════════════════════════════════
 
 🚀 QUICK START (3 EASY STEPS)
@@ -69,6 +83,9 @@ Option B: FMCG Trade Promotion
 
 Option C: Insurance Underwriting & Investment
    → insurance_underwriting_investment/QUICK_START.md
+
+Option D: Telecom Customer Retention
+   → telecom_retention_demo/README.md
 
 Then follow these steps:
 
@@ -92,7 +109,7 @@ TOTAL TIME: ~15 MINUTES PER DEMO ⚡
 📊 WHAT YOU GET
 ═══════════════════════════════════════════════════════════════════════════════
 
-📦 TOTAL ACROSS ALL DEMOS: 320,000+ realistic records
+📦 TOTAL ACROSS CORTEX ANALYST DEMOS: 320,000+ realistic records
    31 interconnected tables
    3 complete industry verticals
 
@@ -128,6 +145,13 @@ TOTAL TIME: ~15 MINUTES PER DEMO ⚡
   ✅ 10,000+ Investment transactions with regional brokers
   ✅ 50 Reinsurance treaties (global & regional reinsurers)
 
+📞 Telecom Customer Retention (synthetic dataset):
+  ✅ 1,000 Customers and ~950 subscriptions
+  ✅ 12 months of usage (~11,000 records)
+  ✅ 90 days of network stats (~30,000 records)
+  ✅ ~2,500 call center interactions
+  ✅ 8 active promotions + churn predictions
+
 Business Questions Answered (Combined):
   ✅ Production & operational optimization
   ✅ Cost management & profitability
@@ -143,6 +167,9 @@ Business Questions Answered (Combined):
   ✅ Investment portfolio optimization
   ✅ Reserve adequacy & claims analysis
   ✅ Asset-liability management
+  ✅ Customer churn prediction & retention offers
+  ✅ Network quality & support experience analysis
+  ✅ Multi-step agentic workflows (search + actions)
 
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -187,6 +214,10 @@ Snowflake Account:
   • ACCOUNTADMIN role (or equivalent)
   • Cortex Analyst access (check with account team)
   • Medium or Large warehouse (for faster setup)
+  • Snowpark Container Services enabled (optional, for ML model)
+
+Local Requirements (Telecom demo):
+  • Docker Desktop (optional, for SPCS deployment)
 
 Time & Cost:
   • Setup: 7 minutes (one-time)
@@ -215,6 +246,11 @@ For Deep Understanding:
   2. semantic_model.yaml .......... AI configuration
   3. SQL scripts .................. Data model & setup details
 
+Telecom Customer Retention:
+  1. README.md .................... Full documentation
+  2. SPCS_DEPLOYMENT_GUIDE.md ..... ML model deployment (optional)
+  3. agent_spec.json .............. Agent configuration
+
 ═══════════════════════════════════════════════════════════════════════════════
 
 🎬 DEMO FLOW (5-8 MINUTES)
@@ -238,6 +274,12 @@ For Deep Understanding:
   Minutes 5-6: Claims & Reserves (frequency, severity, adequacy)
   Minutes 7-8: Investment Management (allocation, yield with regional brokers)
 
+📞 Telecom Customer Retention Demo Flow:
+  Minutes 1-2: Context (customer profile + usage trends)
+  Minutes 3-4: Support + network issues (search + diagnostics)
+  Minutes 5-6: Churn prediction + risk factors (ML or rule-based)
+  Minutes 7-8: Promotions + email action (agent tools)
+
 ═══════════════════════════════════════════════════════════════════════════════
 
 🧹 CLEANUP (OPTIONAL)
@@ -257,6 +299,11 @@ After demo, to remove all artifacts:
     DROP DATABASE IF EXISTS INSURANCE_DEMO;
     DROP WAREHOUSE IF EXISTS DEMO_WH;
 
+  📞 Telecom:
+    DROP DATABASE IF EXISTS TELECOM_DEMO;
+    DROP WAREHOUSE IF EXISTS TELECOM_DEMO_WH;
+    -- Optional: DROP SERVICE/COMPUTE POOL if SPCS was used
+
 ═══════════════════════════════════════════════════════════════════════════════
 
 ✅ YOU'RE READY!
@@ -269,6 +316,7 @@ the actual demo takes 5-8 minutes. All data is realistic and production-quality.
    🛢️  Oil & Gas → oil_gas_upstream_operations/DEMO_GUIDE.md
    🛒 FMCG → fmcg_trade_promotion/QUICK_START.md
    🏥 Insurance → insurance_underwriting_investment/QUICK_START.md
+   📞 Telecom → telecom_retention_demo/README.md
 
 ═══════════════════════════════════════════════════════════════════════════════
 
